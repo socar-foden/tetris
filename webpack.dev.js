@@ -25,6 +25,7 @@ module.exports = {
               "@babel/preset-react",
               "@babel/preset-typescript",
             ],
+            plugins: ["const-enum", "@babel/transform-typescript"],
           },
         },
         exclude: /node_modules/,

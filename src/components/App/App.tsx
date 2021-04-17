@@ -1,5 +1,6 @@
 import React from "react";
-import GlobalStyle from "./GlobalStyle";
+import GameContext, { GameState } from "../../GameContext";
+import GlobalStyle from "../GlobalStyle";
 
 const App = () => {
   return (
@@ -8,6 +9,10 @@ const App = () => {
 
       <main>
         <div role="game"></div>
+
+        <GameContext.Consumer>
+          {(value: GameState) => value.level}
+        </GameContext.Consumer>
 
         <section role="section" aria-label="level"></section>
         <section role="section" aria-label="rows"></section>
