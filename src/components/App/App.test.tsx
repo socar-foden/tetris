@@ -2,10 +2,15 @@ import React from "react";
 import { render, screen } from "@testing-library/react";
 import "@testing-library/jest-dom";
 import App from "./App";
+import GameContext, { gameState } from "../../GameContext";
 
 describe("test", () => {
   beforeEach(() => {
-    render(<App />);
+    render(
+      <GameContext.Provider value={gameState}>
+        <App />
+      </GameContext.Provider>
+    );
   });
 
   describe("구성요소 테스트", () => {
