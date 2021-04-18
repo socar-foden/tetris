@@ -1,6 +1,6 @@
 import React from "react";
 
-const enum Progress {
+export const enum Progress {
   ready,
   proceeding,
   end,

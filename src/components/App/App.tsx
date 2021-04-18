@@ -1,25 +1,22 @@
-import React from "react";
-import GameContext, { GameState } from "../../GameContext";
+import React, { useState } from "react";
+import GameContext, { gameState } from "../../GameContext";
+import Game from "../Game/Game";
 import GlobalStyle from "../GlobalStyle";
+import Info from "../Info/Info";
 
 const App = () => {
+  const [state] = useState(gameState);
+
   return (
-    <>
+    <GameContext.Provider value={state}>
       <GlobalStyle />
 
       <main>
-        <div role="game"></div>
+        <Game />
 
-        <GameContext.Consumer>
-          {(value: GameState) => value.level}
-        </GameContext.Consumer>
-
-        <section role="section" aria-label="level"></section>
-        <section role="section" aria-label="rows"></section>
-        <section role="section" aria-label="score"></section>
-        <button aria-label="start">START GAME</button>
+        <Info />
       </main>
-    </>
+    </GameContext.Provider>
   );
 };
 
