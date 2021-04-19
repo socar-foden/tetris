@@ -7,9 +7,14 @@ const Info = () => {
   const [gameState, setGameState] = useState(gameContext);
   const { score, rows, level, progress } = gameState;
 
-  const handleClickStart = () => {
-    setGameState((prev) => ({ ...prev, progress: Progress.proceeding }));
-  };
+  const handleClickProgress = fp.curry(
+    (
+      progress: Progress,
+      e: React.MouseEvent<HTMLButtonElement, MouseEvent>
+    ) => {
+      setGameState((prev) => ({ ...prev, progress }));
+    }
+  );
 
   return (
     <div role="info">
@@ -23,11 +28,16 @@ const Info = () => {
         Level: {level}
       </section>
       {fp.isEqual(progress, Progress.ready) ? (
-        <button aria-label="start" onClick={handleClickStart}>
+        <button
+          aria-label="start"
+          onClick={handleClickProgress(Progress.proceeding)}
+        >
           START GAME
         </button>
       ) : (
-        <button aria-label="end">END</button>
+        <button aria-label="end" onClick={handleClickProgress(Progress.end)}>
+          END
+        </button>
       )}
     </div>
   );
