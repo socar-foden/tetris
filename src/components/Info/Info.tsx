@@ -1,6 +1,6 @@
 import React, { useContext, useState } from "react";
 import fp from "lodash/fp";
-import GameContext, { GameState, Progress } from "../../GameContext";
+import GameContext, { Progress } from "../../GameContext";
 
 const Info = () => {
   const gameContext = useContext(GameContext);
