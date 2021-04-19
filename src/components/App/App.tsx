@@ -14,7 +14,6 @@ const App = () => {
 
       <S.Main>
         <Game />
-
         <Info />
       </S.Main>
     </GameContext.Provider>

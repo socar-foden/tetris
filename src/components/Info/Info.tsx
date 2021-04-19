@@ -1,6 +1,7 @@
 import React, { useContext, useState } from "react";
 import fp from "lodash/fp";
 import GameContext, { Progress } from "../../GameContext";
+import S from "./Info.style";
 
 const Info = () => {
   const gameContext = useContext(GameContext);
@@ -17,7 +18,7 @@ const Info = () => {
   );
 
   return (
-    <div role="info">
+    <S.Info role="info">
       <section role="section" aria-label="score">
         Score: {score}
       </section>
@@ -32,14 +33,14 @@ const Info = () => {
           aria-label="start"
           onClick={handleClickProgress(Progress.proceeding)}
         >
-          START GAME
+          START
         </button>
       ) : (
         <button aria-label="end" onClick={handleClickProgress(Progress.end)}>
           END
         </button>
       )}
-    </div>
+    </S.Info>
   );
 };
 
