@@ -3,6 +3,7 @@ import GameContext, { gameState } from "../../GameContext";
 import Game from "../Game/Game";
 import GlobalStyle from "../GlobalStyle";
 import Info from "../Info/Info";
+import S from "./App.style";
 
 const App = () => {
   const [state] = useState(gameState);
@@ -11,11 +12,11 @@ const App = () => {
     <GameContext.Provider value={state}>
       <GlobalStyle />
 
-      <main>
+      <S.Main>
         <Game />
 
         <Info />
-      </main>
+      </S.Main>
     </GameContext.Provider>
   );
 };
