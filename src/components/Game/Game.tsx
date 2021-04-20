@@ -9,59 +9,10 @@ const enum Space {
   disabled,
 }
 
-const spaceList: Space[][] = [
-  [
-    Space.empty,
-    Space.empty,
-    Space.block,
-    Space.empty,
-    Space.block,
-    Space.empty,
-    Space.disabled,
-    Space.empty,
-    Space.empty,
-    Space.block,
-    Space.empty,
-    Space.block,
-    Space.empty,
-    Space.disabled,
-    Space.disabled,
-  ],
-  [
-    Space.empty,
-    Space.empty,
-    Space.disabled,
-    Space.empty,
-    Space.empty,
-    Space.empty,
-    Space.empty,
-    Space.empty,
-    Space.empty,
-    Space.block,
-    Space.empty,
-    Space.block,
-    Space.block,
-    Space.empty,
-    Space.disabled,
-  ],
-  [
-    Space.empty,
-    Space.empty,
-    Space.disabled,
-    Space.empty,
-    Space.block,
-    Space.empty,
-    Space.empty,
-    Space.empty,
-    Space.empty,
-    Space.empty,
-    Space.disabled,
-    Space.empty,
-    Space.block,
-    Space.empty,
-    Space.empty,
-  ],
-];
+const spaceList: Space[][] = _.times(
+  25,
+  _.constant(_.times(15, _.constant(Space.empty)))
+);
 
 const Game = () => {
   return (
