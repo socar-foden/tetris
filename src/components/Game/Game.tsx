@@ -1,20 +1,14 @@
-import React from "react";
+import React, { useContext, useState } from "react";
 import _ from "lodash";
 import S from "./Game.style";
 import When from "../When/When";
-
-const enum Space {
-  empty,
-  block,
-  disabled,
-}
-
-const spaceList: Space[][] = _.times(
-  25,
-  _.constant(_.times(15, _.constant(Space.empty)))
-);
+import GameContext, { Space } from "../../GameContext";
 
 const Game = () => {
+  const gameContext = useContext(GameContext);
+  const [gameState] = useState(gameContext);
+  const { spaceList } = gameState;
+
   return (
     <S.Game role="game">
       {_.map(spaceList, (rows, index) => (

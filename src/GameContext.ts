@@ -1,4 +1,11 @@
 import React from "react";
+import _ from "lodash";
+
+export const enum Space {
+  empty,
+  block,
+  disabled,
+}
 
 export const enum Progress {
   ready,
@@ -11,6 +18,7 @@ export interface GameState {
   rows: number;
   level: number;
   progress: Progress;
+  spaceList: Space[][];
 }
 
 export const gameState: GameState = {
@@ -18,6 +26,7 @@ export const gameState: GameState = {
   rows: 0,
   level: 1,
   progress: Progress.ready,
+  spaceList: _.times(25, _.constant(_.times(15, _.constant(Space.empty)))),
 };
 
 const GameContext = React.createContext<GameState | null>(null);
