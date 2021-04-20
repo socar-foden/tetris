@@ -2,11 +2,14 @@ import React, { useContext, useState } from "react";
 import fp from "lodash/fp";
 import GameContext, { Progress } from "../../GameContext";
 import S from "./Info.style";
+import When from "../When/When";
 
 const Info: React.FC = () => {
   const gameContext = useContext(GameContext);
   const [gameState, setGameState] = useState(gameContext);
   const { score, rows, level, progress } = gameState;
+
+  const isReady = fp.isEqual(progress, Progress.ready);
 
   const handleClickProgress = fp.curry(
     (
@@ -28,18 +31,19 @@ const Info: React.FC = () => {
       <section role="section" aria-label="level">
         Level: {level}
       </section>
-      {fp.isEqual(progress, Progress.ready) ? (
+      <When condition={isReady}>
         <button
           aria-label="start"
           onClick={handleClickProgress(Progress.proceeding)}
         >
           START
         </button>
-      ) : (
+      </When>
+      <When condition={!isReady}>
         <button aria-label="end" onClick={handleClickProgress(Progress.end)}>
           END
         </button>
-      )}
+      </When>
     </S.Info>
   );
 };
