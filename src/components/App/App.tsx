@@ -8,15 +8,21 @@ import S from "./App.style";
 const App: React.FC = () => {
   const [state] = useState(gameState);
 
-  return (
-    <GameContext.Provider value={state}>
-      <GlobalStyle />
+  const handleKeyDown = (e: React.KeyboardEvent<HTMLDivElement>) => {
+    console.log(e);
+  };
 
-      <S.Main>
-        <Game />
-        <Info />
-      </S.Main>
-    </GameContext.Provider>
+  return (
+    <S.Wrapper onKeyDown={handleKeyDown} tabIndex={0}>
+      <GameContext.Provider value={state}>
+        <GlobalStyle />
+
+        <S.Main>
+          <Game />
+          <Info />
+        </S.Main>
+      </GameContext.Provider>
+    </S.Wrapper>
   );
 };
 
