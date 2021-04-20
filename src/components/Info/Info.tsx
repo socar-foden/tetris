@@ -3,7 +3,7 @@ import fp from "lodash/fp";
 import GameContext, { Progress } from "../../GameContext";
 import S from "./Info.style";
 
-const Info = () => {
+const Info: React.FC = () => {
   const gameContext = useContext(GameContext);
   const [gameState, setGameState] = useState(gameContext);
   const { score, rows, level, progress } = gameState;
