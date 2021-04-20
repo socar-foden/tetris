@@ -5,7 +5,7 @@ import GlobalStyle from "../GlobalStyle";
 import Info from "../Info/Info";
 import S from "./App.style";
 
-const App = () => {
+const App: React.FC = () => {
   const [state] = useState(gameState);
 
   return (
