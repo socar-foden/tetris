@@ -1,4 +1,5 @@
 import styled from "styled-components";
+import fp from "lodash/fp";
 
 const Space = styled.div`
   width: 18px;
@@ -17,7 +18,7 @@ const S = {
     border: 1px dotted black;
   `,
   Block: styled(Space)`
-    background-color: red;
+    background-color: ${fp.get("color")};
   `,
   Disabled: styled(Space)`
     background-color: grey;

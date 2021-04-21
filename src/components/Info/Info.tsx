@@ -36,7 +36,7 @@ const Info: React.FC = () => {
                 {_.map(position, (row: Space[], indexR) => (
                   <Game_S.Space key={indexR}>
                     <When condition={_.isEqual(row, Space.block)}>
-                      <Game_S.Block />
+                      <Game_S.Block color={next.color} />
                     </When>
                   </Game_S.Space>
                 ))}
