@@ -1,6 +1,6 @@
 import React from "react";
 import _ from "lodash";
-import { Block, Block_I, Space } from "./blocks/blocks";
+import { Block, Block_I, Block_O, Space } from "./blocks/blocks";
 
 export const enum Progress {
   ready,
@@ -18,7 +18,7 @@ export interface GameState {
 }
 
 export const gameState: GameState = {
-  nextList: [new Block_I(), new Block_I()],
+  nextList: [new Block_I(), new Block_O()],
   score: 0,
   rows: 0,
   level: 1,

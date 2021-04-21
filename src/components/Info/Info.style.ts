@@ -6,6 +6,17 @@ const S = {
     align-self: flex-end;
     width: 60px;
   `,
+  RowWrapper: styled.div`
+    margin: 10px 0 10px 0;
+  `,
+  NextInformation: styled.div`
+    height: 200px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid grey;
+  `,
 };
 
 export default S;

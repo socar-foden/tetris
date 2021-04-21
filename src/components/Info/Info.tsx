@@ -1,8 +1,11 @@
 import React, { useContext, useState } from "react";
+import _ from "lodash";
 import fp from "lodash/fp";
 import GameContext, { Progress } from "../../GameContext";
 import S from "./Info.style";
+import Game_S from "../Game/Game.style";
 import When from "../When/When";
+import { Block, Space } from "../../blocks/blocks";
 
 const Info: React.FC = () => {
   const gameContext = useContext(GameContext);
@@ -23,8 +26,25 @@ const Info: React.FC = () => {
   return (
     <S.Info role="info">
       <section role="section" aria-label="next">
-        Next: {nextList.length}
+        Next:
       </section>
+      <S.NextInformation>
+        {_.map(nextList, (next: Block, index) => (
+          <S.RowWrapper>
+            {_.map(next.position, (position: Space[][], index) => (
+              <Game_S.Row key={index}>
+                {_.map(position, (row: Space[], indexR) => (
+                  <Game_S.Space key={indexR}>
+                    <When condition={_.isEqual(row, Space.block)}>
+                      <Game_S.Block />
+                    </When>
+                  </Game_S.Space>
+                ))}
+              </Game_S.Row>
+            ))}
+          </S.RowWrapper>
+        ))}
+      </S.NextInformation>
       <section role="section" aria-label="score">
         Score: {score}
       </section>
