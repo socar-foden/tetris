@@ -5,7 +5,7 @@ import GameContext, { Progress } from "../../GameContext";
 import S from "./Info.style";
 import Game_S from "../Game/Game.style";
 import When from "../When/When";
-import { Block, Space } from "../../blocks/blocks";
+import { Block, Space } from "../../models/blocks";
 
 const Info: React.FC = () => {
   const gameContext = useContext(GameContext);

@@ -1,6 +1,6 @@
 import React from "react";
 import _ from "lodash";
-import { Block, Block_I, Block_O, Space } from "./blocks/blocks";
+import { Block, Block_I, Block_O, Space } from "./models/blocks";
 
 export const enum Progress {
   ready,

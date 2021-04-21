@@ -3,7 +3,7 @@ import _ from "lodash";
 import S from "./Game.style";
 import When from "../When/When";
 import GameContext from "../../GameContext";
-import { Space } from "../../blocks/blocks";
+import { Space } from "../../models/blocks";
 
 const Game = () => {
   const gameContext = useContext(GameContext);
