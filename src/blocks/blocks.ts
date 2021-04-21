@@ -15,7 +15,7 @@ const enum BlockType {
 }
 
 export class Block {
-  protected _position: number[][];
+  protected _position: Space[][];
   _direction: number;
   protected _type: BlockType;
 
