@@ -2,7 +2,8 @@ import React, { useContext, useState } from "react";
 import _ from "lodash";
 import S from "./Game.style";
 import When from "../When/When";
-import GameContext, { Space } from "../../GameContext";
+import GameContext from "../../GameContext";
+import { Space } from "../../blocks/blocks";
 
 const Game = () => {
   const gameContext = useContext(GameContext);

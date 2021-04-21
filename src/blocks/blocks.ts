@@ -1,4 +1,8 @@
-import { Space } from "../GameContext";
+export const enum Space {
+  empty,
+  block,
+  disabled,
+}
 
 const enum BlockType {
   I,
