@@ -7,7 +7,7 @@ import When from "../When/When";
 const Info: React.FC = () => {
   const gameContext = useContext(GameContext);
   const [gameState, setGameState] = useState(gameContext);
-  const { score, rows, level, progress } = gameState;
+  const { score, rows, level, progress, nextList } = gameState;
 
   const isReady = fp.isEqual(progress, Progress.ready);
 
@@ -22,6 +22,9 @@ const Info: React.FC = () => {
 
   return (
     <S.Info role="info">
+      <section role="section" aria-label="next">
+        Next: {nextList.length}
+      </section>
       <section role="section" aria-label="score">
         Score: {score}
       </section>

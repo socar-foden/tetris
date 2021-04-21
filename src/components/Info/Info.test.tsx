@@ -16,7 +16,8 @@ describe("[Info]", () => {
   });
 
   describe("구성요소 테스트", () => {
-    it("시작버튼, level, rows, score 영역이 존재한다.", () => {
+    it("시작버튼, level, rows, score, next 영역이 존재한다.", () => {
+      expect(screen.getByRole("section", { name: "next" })).toBeInTheDocument();
       expect(
         screen.getByRole("section", { name: "level" })
       ).toBeInTheDocument();
