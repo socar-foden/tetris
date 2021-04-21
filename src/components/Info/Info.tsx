@@ -30,7 +30,7 @@ const Info: React.FC = () => {
       </section>
       <S.NextInformation>
         {_.map(nextList, (next: Block, index) => (
-          <S.RowWrapper>
+          <S.RowWrapper key={index}>
             {_.map(next.position, (position: Space[][], index) => (
               <Game_S.Row key={index}>
                 {_.map(position, (row: Space[], indexR) => (
