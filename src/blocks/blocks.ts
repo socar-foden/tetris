@@ -14,71 +14,75 @@ const enum BlockType {
   T,
 }
 
-export interface Block {
-  position: number[][];
-  direction: number;
-  type: BlockType;
+export class Block {
+  protected _position: number[][];
+  protected _direction: number;
+  _type: BlockType;
+
+  get position() {
+    return this._position;
+  }
+  get direction() {
+    return this._direction;
+  }
 }
 
-export const Block_I: Block = {
-  position: [[Space.block], [Space.block], [Space.block], [Space.block]],
-  direction: 0,
-  type: BlockType.I,
-};
+export class Block_I extends Block {
+  _position: [[Space.block], [Space.block], [Space.block], [Space.block]];
+  _direction: 0;
+  _type: BlockType.I;
+}
 
-export const Block_O: Block = {
-  position: [
-    [Space.block, Space.block],
-    [Space.block, Space.block],
-  ],
-  direction: 0,
-  type: BlockType.O,
-};
+export class Block_O extends Block {
+  _position: [[Space.block, Space.block], [Space.block, Space.block]];
+  _direction: 0;
+  _type: BlockType.O;
+}
 
-export const Block_Z: Block = {
-  position: [
+export class Block_Z extends Block {
+  _position: [
     [Space.block, Space.block, Space.empty],
-    [Space.empty, Space.block, Space.block],
-  ],
-  direction: 0,
-  type: BlockType.Z,
-};
+    [Space.empty, Space.block, Space.block]
+  ];
+  _direction: 0;
+  _type: BlockType.Z;
+}
 
-export const Block_S: Block = {
-  position: [
+export class Block_S extends Block {
+  _position: [
     [Space.empty, Space.block, Space.block],
-    [Space.block, Space.block, Space.empty],
-  ],
-  direction: 0,
-  type: BlockType.S,
-};
+    [Space.block, Space.block, Space.empty]
+  ];
+  _direction: 0;
+  _type: BlockType.S;
+}
 
-export const Block_J: Block = {
-  position: [
+export class Block_J extends Block {
+  _position: [
     [Space.empty, Space.block],
     [Space.empty, Space.block],
-    [Space.block, Space.block],
-  ],
-  direction: 0,
-  type: BlockType.J,
-};
+    [Space.block, Space.block]
+  ];
+  _direction: 0;
+  _type: BlockType.J;
+}
 
-export const Block_L: Block = {
-  position: [
+export class Block_L extends Block {
+  _position: [
     [Space.block, Space.empty],
     [Space.block, Space.empty],
-    [Space.block, Space.block],
-  ],
-  direction: 0,
-  type: BlockType.L,
-};
+    [Space.block, Space.block]
+  ];
+  _direction: 0;
+  _type: BlockType.L;
+}
 
-export const Block_T: Block = {
-  position: [
+export class Block_T extends Block {
+  _position: [
     [Space.block, Space.block, Space.block],
     [Space.empty, Space.block, Space.empty],
-    [Space.empty, Space.block, Space.empty],
-  ],
-  direction: 0,
-  type: BlockType.T,
-};
+    [Space.empty, Space.block, Space.empty]
+  ];
+  _direction: 0;
+  _type: BlockType.T;
+}

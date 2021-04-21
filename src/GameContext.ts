@@ -18,7 +18,7 @@ export interface GameState {
 }
 
 export const gameState: GameState = {
-  nextList: [Block_I, Block_I],
+  nextList: [new Block_I(), new Block_I()],
   score: 0,
   rows: 0,
   level: 1,
