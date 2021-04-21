@@ -1,9 +1,7 @@
 import React, { useContext, useState } from "react";
 import _ from "lodash";
 import S from "./Game.style";
-import When from "../When/When";
 import GameContext from "../../GameContext";
-import { Space } from "../../models/blocks";
 
 const Game = () => {
   const gameContext = useContext(GameContext);
@@ -15,17 +13,7 @@ const Game = () => {
       {_.map(spaceList, (rows, index) => (
         <S.Row key={index}>
           {_.map(rows, (space, index) => (
-            <S.Space key={index}>
-              <When condition={_.isEqual(space, Space.empty)}>
-                <S.Empty />
-              </When>
-              <When condition={_.isEqual(space, Space.block)}>
-                <S.Block />
-              </When>
-              <When condition={_.isEqual(space, Space.disabled)}>
-                <S.Disabled />
-              </When>
-            </S.Space>
+            <S.Space key={index} color={space.color} border={space.border} />
           ))}
         </S.Row>
       ))}

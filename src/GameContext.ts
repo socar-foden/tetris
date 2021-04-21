@@ -1,6 +1,7 @@
 import React from "react";
 import _ from "lodash";
-import { Block, Block_I, Block_O, Space } from "./models/blocks";
+import { Block, Block_I, Block_O } from "./models/blocks";
+import { Space, Space_Empty } from "./models/spaces";
 
 export const enum Progress {
   ready,
@@ -23,7 +24,10 @@ export const gameState: GameState = {
   rows: 0,
   level: 1,
   progress: Progress.ready,
-  spaceList: _.times(25, _.constant(_.times(15, _.constant(Space.empty)))),
+  spaceList: _.times(
+    25,
+    _.constant(_.times(15, _.constant(new Space_Empty())))
+  ),
 };
 
 const GameContext = React.createContext<GameState | null>(null);
