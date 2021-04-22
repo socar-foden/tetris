@@ -6,7 +6,7 @@ import S from "./Info.style";
 import Game_S from "../Game/Game.style";
 import When from "../When/When";
 import { Block } from "../../models/blocks";
-import { Space } from "../../models/spaces";
+import { Space, SpaceState } from "../../models/spaces";
 
 const Info: React.FC = () => {
   const gameContext = useContext(GameContext);
@@ -35,11 +35,12 @@ const Info: React.FC = () => {
             {_.map(next.position, (rows: Space[], index) => (
               <Game_S.Row key={index}>
                 {_.map(rows, (space: Space, indexR) => (
-                  <Game_S.Space
+                  <When
                     key={indexR}
-                    color={space._color}
-                    border={space._border}
-                  />
+                    condition={_.isEqual(space._state, SpaceState.block)}
+                  >
+                    <Game_S.Space color={space._color} border={space._border} />
+                  </When>
                 ))}
               </Game_S.Row>
             ))}
