@@ -16,7 +16,7 @@ export interface GameState {
   level: number;
   progress: Progress;
   spaceList: Space[][];
-  setGameState: Function;
+  setGameState: (callback: (gameState: GameState) => GameState) => void;
 }
 
 export const gameState: GameState = {
