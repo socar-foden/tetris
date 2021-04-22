@@ -24,10 +24,7 @@ export const gameState: GameState = {
   rows: 0,
   level: 1,
   progress: Progress.ready,
-  spaceList: _.times(
-    25,
-    _.constant(_.times(15, _.constant(new Space_Empty())))
-  ),
+  spaceList: _.times(25, () => _.times(15, () => new Space_Empty())),
 };
 
 const GameContext = React.createContext<GameState | null>(null);
