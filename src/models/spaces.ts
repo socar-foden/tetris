@@ -6,15 +6,8 @@ export const enum SpaceState {
 
 export class Space {
   _state: SpaceState;
-  protected _color: string;
-  protected _border: string;
-
-  get color() {
-    return this._color;
-  }
-  get border() {
-    return this._border;
-  }
+  _color: string;
+  _border: string;
 }
 
 export class Space_Empty extends Space {
