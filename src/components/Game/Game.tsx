@@ -1,20 +1,11 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext } from "react";
 import _ from "lodash";
 import S from "./Game.style";
 import GameContext from "../../GameContext";
-import { getSpaceList } from "../../utils";
 
 const Game = () => {
   const gameContext = useContext(GameContext);
-  const [gameState, setGameState] = useState(gameContext);
-  const { spaceList, nextList } = gameState;
-
-  // useEffect(() => {
-  //   setGameState((prev) => ({
-  //     ...prev,
-  //     spaceList: getSpaceList({ d_1: 0, d_2: 7 }, nextList[0], prev.spaceList),
-  //   }));
-  // }, []);
+  const { spaceList } = gameContext;
 
   return (
     <S.Game role="game">
