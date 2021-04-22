@@ -2,51 +2,19 @@ import React, { useContext, useEffect, useState } from "react";
 import _ from "lodash";
 import S from "./Game.style";
 import GameContext from "../../GameContext";
-import { Space, SpaceState } from "../../models/spaces";
-import { Block } from "../../models/blocks";
-
-interface Location {
-  d_1: number;
-  d_2: number;
-}
-
-const getSpaceList = (
-  startLocation: Location,
-  block: Block,
-  spaceList: Space[][]
-): Space[][] => {
-  const cloned = _.cloneDeep(spaceList);
-  const { d_1, d_2 } = startLocation;
-  const { position, border, color } = block;
-
-  const range_d_2 = _.range(d_2, d_2 + position[0].length);
-  const range_d_1 = _.range(d_1, d_1 + position.length);
-
-  _.forEach(range_d_1, (d1, i) =>
-    _.forEach(range_d_2, (d2, j) => {
-      const target = cloned[d1][d2];
-
-      if (_.isEqual(position[i][j]._state, SpaceState.block)) {
-        target._border = border;
-        target._color = color;
-      }
-    })
-  );
-
-  return cloned;
-};
+import { getSpaceList } from "../../utils";
 
 const Game = () => {
   const gameContext = useContext(GameContext);
   const [gameState, setGameState] = useState(gameContext);
   const { spaceList, nextList } = gameState;
 
-  useEffect(() => {
-    setGameState((prev) => ({
-      ...prev,
-      spaceList: getSpaceList({ d_1: 0, d_2: 7 }, nextList[0], prev.spaceList),
-    }));
-  }, []);
+  // useEffect(() => {
+  //   setGameState((prev) => ({
+  //     ...prev,
+  //     spaceList: getSpaceList({ d_1: 0, d_2: 7 }, nextList[0], prev.spaceList),
+  //   }));
+  // }, []);
 
   return (
     <S.Game role="game">
