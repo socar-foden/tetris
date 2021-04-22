@@ -35,12 +35,15 @@ const Info: React.FC = () => {
             {_.map(next.position, (rows: Space[], index) => (
               <Game_S.Row key={index}>
                 {_.map(rows, (space: Space, indexR) => (
-                  <When
-                    condition={_.isEqual(space._state, SpaceState.block)}
+                  <Game_S.Space
                     key={indexR}
-                  >
-                    <Game_S.Space color={space._color} border={space._border} />
-                  </When>
+                    color={space._color}
+                    border={
+                      _.isEqual(space._state, SpaceState.block)
+                        ? space._border
+                        : "1px solid rgb(0, 0, 0, 0)"
+                    }
+                  />
                 ))}
               </Game_S.Row>
             ))}
