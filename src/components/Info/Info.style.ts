@@ -4,7 +4,7 @@ const S = {
   Info: styled.div`
     padding-bottom: 20px;
     align-self: flex-end;
-    width: 60px;
+    width: 70px;
   `,
   RowWrapper: styled.div`
     margin: 10px 0 10px 0;
