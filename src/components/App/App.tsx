@@ -6,7 +6,8 @@ import Info from "../Info/Info";
 import S from "./App.style";
 
 const App: React.FC = () => {
-  const [state] = useState(gameState);
+  const [state, setState] = useState(gameState);
+  state.setGameState = setState;
 
   const handleKeyDown = (e: React.KeyboardEvent<HTMLDivElement>) => {
     console.log(e);

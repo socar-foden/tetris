@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, { useContext } from "react";
 import _ from "lodash";
 import fp from "lodash/fp";
 import GameContext, { Progress } from "../../GameContext";
@@ -7,22 +7,25 @@ import Game_S from "../Game/Game.style";
 import When from "../When/When";
 import { Block } from "../../models/blocks";
 import { Space, SpaceState } from "../../models/spaces";
+import { getRandomBlock } from "../../utils";
 
 const Info: React.FC = () => {
   const gameContext = useContext(GameContext);
-  const [gameState, setGameState] = useState(gameContext);
-  const { score, rows, level, progress, nextList } = gameState;
+  const { score, rows, level, progress, nextList, setGameState } = gameContext;
 
   const isReady = fp.isEqual(progress, Progress.ready);
 
-  const handleClickProgress = fp.curry(
-    (
-      progress: Progress,
-      e: React.MouseEvent<HTMLButtonElement, MouseEvent>
-    ) => {
-      setGameState((prev) => ({ ...prev, progress }));
-    }
-  );
+  const handleClickStart = () => {
+    setGameState((prev) => ({
+      ...prev,
+      progress: Progress.proceeding,
+      nextList: [getRandomBlock(), getRandomBlock()],
+    }));
+  };
+
+  const handleClickEnd = () => {
+    setGameState((prev) => ({ ...prev, progress: Progress.ready }));
+  };
 
   return (
     <S.Info role="info">
@@ -60,15 +63,12 @@ const Info: React.FC = () => {
         Level: {level}
       </section>
       <When condition={isReady}>
-        <button
-          aria-label="start"
-          onClick={handleClickProgress(Progress.proceeding)}
-        >
+        <button aria-label="start" onClick={handleClickStart}>
           START
         </button>
       </When>
       <When condition={!isReady}>
-        <button aria-label="end" onClick={handleClickProgress(Progress.end)}>
+        <button aria-label="end" onClick={handleClickEnd}>
           END
         </button>
       </When>

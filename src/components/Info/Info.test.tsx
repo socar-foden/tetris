@@ -1,17 +1,31 @@
-import React from "react";
+import React, { useState } from "react";
 import { render, screen } from "@testing-library/react";
 import "@testing-library/jest-dom";
 import userEvent from "@testing-library/user-event";
-import "@testing-library/user-event";
 import GameContext, { gameState, Progress } from "../../GameContext";
 import Info from "./Info";
+
+const BindSetGameState: React.FC = ({ children }) => {
+  const [state, setState] = useState(gameState);
+  state.setGameState = setState;
+
+  return <GameContext.Provider value={state}>{children}</GameContext.Provider>;
+};
 
 describe("[Info]", () => {
   beforeEach(() => {
     render(
-      <GameContext.Provider value={gameState}>
+      <BindSetGameState>
         <Info />
-      </GameContext.Provider>
+        <GameContext.Consumer>
+          {({ nextList, progress }) => (
+            <>
+              <span data-testid="next-length">{nextList.length}</span>
+              <span data-testid="progress">{progress}</span>
+            </>
+          )}
+        </GameContext.Consumer>
+      </BindSetGameState>
     );
   });
 
@@ -30,9 +44,20 @@ describe("[Info]", () => {
   });
 
   describe("상태 테스트", () => {
-    it(`start 버튼을 누르면 진행상태가 ${Progress.proceeding}로 변경된다.`, () => {
-      userEvent.click(screen.getByRole("button", { name: "start" }));
-      expect(screen.getByRole("button", { name: "end" })).toBeInTheDocument();
+    describe(`start 버튼을 누르면`, () => {
+      beforeEach(() => {
+        userEvent.click(screen.getByRole("button", { name: "start" }));
+      });
+
+      it(`진행상태가 ${Progress.proceeding}로 변경된다.`, () => {
+        expect(Number(screen.getByTestId("progress").textContent)).toBe(
+          Progress.proceeding
+        );
+      });
+
+      it(`후보 블럭 리스트가 2개로 초기화된다.`, () => {
+        expect(Number(screen.getByTestId("next-length").textContent)).toBe(2);
+      });
     });
   });
 });
