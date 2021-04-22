@@ -36,8 +36,8 @@ const Info: React.FC = () => {
               <Game_S.Row key={index}>
                 {_.map(rows, (space: Space, indexR) => (
                   <When
-                    key={indexR}
                     condition={_.isEqual(space._state, SpaceState.block)}
+                    key={indexR}
                   >
                     <Game_S.Space color={space._color} border={space._border} />
                   </When>
