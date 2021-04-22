@@ -8,6 +8,11 @@ export class Space {
   _state: SpaceState;
   _color: string;
   _border: string;
+
+  constructor() {
+    this._border = "1px dotted black";
+    this._color = "";
+  }
 }
 
 export class Space_Empty extends Space {
@@ -15,8 +20,6 @@ export class Space_Empty extends Space {
     super();
 
     this._state = SpaceState.empty;
-    this._color = "white";
-    this._border = "1px dotted black";
   }
 }
 
@@ -36,6 +39,5 @@ export class Space_Disabled extends Space {
 
     this._state = SpaceState.disabled;
     this._color = "grey";
-    this._border = "1px solid black";
   }
 }
