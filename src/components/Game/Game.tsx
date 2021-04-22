@@ -13,7 +13,7 @@ const Game = () => {
       {_.map(spaceList, (rows, index) => (
         <S.Row key={index}>
           {_.map(rows, (space, index) => (
-            <S.Space key={index} color={space.color} border={space.border} />
+            <S.Space key={index} color={space._color} border={space._border} />
           ))}
         </S.Row>
       ))}

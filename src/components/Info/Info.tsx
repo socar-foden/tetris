@@ -37,8 +37,8 @@ const Info: React.FC = () => {
                 {_.map(rows, (space: Space, indexR) => (
                   <Game_S.Space
                     key={indexR}
-                    color={space.color}
-                    border={space.border}
+                    color={space._color}
+                    border={space._border}
                   />
                 ))}
               </Game_S.Row>
