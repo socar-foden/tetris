@@ -15,6 +15,11 @@ export class Block {
   _direction: number;
   protected _type: BlockType;
   protected _color: string;
+  protected _border: string;
+
+  constructor() {
+    this._border = "1px solid black";
+  }
 
   get position() {
     return this._position;
@@ -24,6 +29,9 @@ export class Block {
   }
   get color() {
     return this._color;
+  }
+  get border() {
+    return this._border;
   }
 }
 
