@@ -13,30 +13,44 @@ import {
   getSpaceList,
 } from "../../utils";
 
+let timeout;
+
 const Info: React.FC = () => {
   const gameContext = useContext(GameContext);
   const { score, rows, level, progress, nextList, setGameState } = gameContext;
-
   const isReady = fp.isEqual(progress, Progress.ready);
 
   const handleClickStart = () => {
     setGameState((prev) => ({
       ...prev,
-      spaceList: getEmptySpaceListAll(),
-    }));
-    setGameState((prev) => ({
-      ...prev,
       progress: Progress.proceeding,
       nextList: [getRandomBlock(), getRandomBlock()],
-      spaceList: getSpaceList(
-        { d_1: 0, d_2: 7 },
-        getRandomBlock(),
-        prev.spaceList
-      ),
+      spaceList: getEmptySpaceListAll(),
     }));
+
+    let count = 0;
+    const block = getRandomBlock();
+    const { position } = block;
+
+    timeout = setInterval(() => {
+      if (count + position.length <= 25) {
+        setGameState((prev) => ({
+          ...prev,
+          spaceList: getSpaceList(
+            { d_1: count, d_2: 7 },
+            block,
+            prev.spaceList
+          ),
+        }));
+
+        count++;
+      } else {
+      }
+    }, 1000);
   };
 
   const handleClickEnd = () => {
+    clearInterval(timeout);
     setGameState((prev) => ({ ...prev, progress: Progress.ready }));
   };
 
