@@ -1,7 +1,8 @@
 import React from "react";
 import _ from "lodash";
 import { Block } from "./models/blocks";
-import { Space, Space_Empty } from "./models/spaces";
+import { Space } from "./models/spaces";
+import { getEmptySpaceListAll } from "./utils";
 
 export const enum Progress {
   ready,
@@ -25,7 +26,7 @@ export const gameState: GameState = {
   rows: 0,
   level: 1,
   progress: Progress.ready,
-  spaceList: _.times(25, () => _.times(15, () => new Space_Empty())),
+  spaceList: getEmptySpaceListAll(),
   setGameState: _.noop,
 };
 

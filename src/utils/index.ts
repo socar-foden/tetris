@@ -9,7 +9,7 @@ import {
   Block_T,
   Block_Z,
 } from "../models/blocks";
-import { Space, SpaceState } from "../models/spaces";
+import { Space, SpaceState, Space_Empty } from "../models/spaces";
 
 export const getRandomBlock = (): Block => {
   const blockClassList: Block[] = [
@@ -56,3 +56,6 @@ export const getSpaceList = (
 
   return cloned;
 };
+
+export const getEmptySpaceListAll = () =>
+  _.times(25, () => _.times(15, () => new Space_Empty()));

@@ -7,7 +7,11 @@ import Game_S from "../Game/Game.style";
 import When from "../When/When";
 import { Block } from "../../models/blocks";
 import { Space, SpaceState } from "../../models/spaces";
-import { getRandomBlock, getSpaceList } from "../../utils";
+import {
+  getEmptySpaceListAll,
+  getRandomBlock,
+  getSpaceList,
+} from "../../utils";
 
 const Info: React.FC = () => {
   const gameContext = useContext(GameContext);
@@ -16,6 +20,10 @@ const Info: React.FC = () => {
   const isReady = fp.isEqual(progress, Progress.ready);
 
   const handleClickStart = () => {
+    setGameState((prev) => ({
+      ...prev,
+      spaceList: getEmptySpaceListAll(),
+    }));
     setGameState((prev) => ({
       ...prev,
       progress: Progress.proceeding,
