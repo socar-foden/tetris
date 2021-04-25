@@ -48,6 +48,10 @@ export const getSpaceList = (
       if (_.isEqual(position[i][j]._state, SpaceState.block)) {
         cloned[d1][d2] = new Space_Block(color);
       }
+
+      if (cloned[d_1 - 1]) {
+        cloned[d_1 - 1][d2] = new Space_Empty();
+      }
     })
   );
 
