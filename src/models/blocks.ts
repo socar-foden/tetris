@@ -57,7 +57,7 @@ export class Block_O extends Block {
 
     this._direction = 0;
     this._type = BlockType.O;
-    this._color = "#542e71";
+    this._color = "#d8e3e7";
     this._position = [
       [new Space_Block(this._color), new Space_Block(this._color)],
       [new Space_Block(this._color), new Space_Block(this._color)],
