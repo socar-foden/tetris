@@ -31,6 +31,24 @@ interface Location {
   d_2: number;
 }
 
+const isTopBlock = (location: Location, block: Block): boolean => {
+  const { position } = block;
+  const { d_1, d_2 } = location;
+  const isBlock = position[d_1][d_2]._state === SpaceState.block;
+  let isTop = true;
+  let cnt = 1;
+
+  while (d_1 - cnt >= 0) {
+    if (position[d_1 - cnt][d_2]._state === SpaceState.block) {
+      isTop = false;
+      break;
+    }
+    cnt++;
+  }
+
+  return isBlock && isTop;
+};
+
 export const getSpaceList = (
   location: Location,
   block: Block,
@@ -47,10 +65,10 @@ export const getSpaceList = (
     _.forEach(range_d_2, (d2, j) => {
       if (_.isEqual(position[i][j]._state, SpaceState.block)) {
         cloned[d1][d2] = new Space_Block(color);
-      }
 
-      if (cloned[d_1 - 1]) {
-        cloned[d_1 - 1][d2] = new Space_Empty();
+        if (isTopBlock({ d_1: i, d_2: j }, block) && !!cloned[d1 - 1]) {
+          cloned[d1 - 1][d2] = new Space_Empty();
+        }
       }
     })
   );
