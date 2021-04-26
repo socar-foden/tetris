@@ -29,7 +29,7 @@ const Info: React.FC = () => {
     }));
 
     let count = 0;
-    const block = getRandomBlock();
+    let block = getRandomBlock();
     const { position } = block;
 
     timeout = setInterval(() => {
@@ -45,8 +45,17 @@ const Info: React.FC = () => {
 
         count++;
       } else {
+        setGameState((prev) => {
+          block = prev.nextList[0];
+
+          return {
+            ...prev,
+            nextList: [prev.nextList[1], getRandomBlock()],
+          };
+        });
+        count = 0;
       }
-    }, 1000);
+    }, 100);
   };
 
   const handleClickEnd = () => {
