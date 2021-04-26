@@ -31,7 +31,7 @@ interface Location {
   d_2: number;
 }
 
-const isTopBlock = (location: Location, block: Block): boolean => {
+const isTopPositionOfBlock = (location: Location, block: Block): boolean => {
   const { position } = block;
   const { d_1, d_2 } = location;
   const isBlock = position[d_1][d_2]._state === SpaceState.block;
@@ -66,7 +66,10 @@ export const getSpaceList = (
       if (_.isEqual(position[i][j]._state, SpaceState.block)) {
         cloned[d1][d2] = new Space_Block(color);
 
-        if (isTopBlock({ d_1: i, d_2: j }, block) && !!cloned[d1 - 1]) {
+        if (
+          isTopPositionOfBlock({ d_1: i, d_2: j }, block) &&
+          !!cloned[d1 - 1]
+        ) {
           cloned[d1 - 1][d2] = new Space_Empty();
         }
       }
