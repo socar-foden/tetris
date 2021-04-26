@@ -30,10 +30,9 @@ const Info: React.FC = () => {
 
     let count = 0;
     let block = getRandomBlock();
-    const { position } = block;
 
     timeout = setInterval(() => {
-      if (count + position.length <= 25) {
+      if (count + block.position.length <= 25) {
         setGameState((prev) => ({
           ...prev,
           spaceList: getSpaceList(
@@ -42,7 +41,6 @@ const Info: React.FC = () => {
             prev.spaceList
           ),
         }));
-
         count++;
       } else {
         setGameState((prev) => {
