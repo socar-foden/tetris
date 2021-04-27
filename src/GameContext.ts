@@ -17,6 +17,7 @@ export interface GameState {
   level: number;
   progress: Progress;
   spaceList: Space[][];
+  currentBlock: Block;
   setGameState: (callback: (gameState: GameState) => GameState) => void;
 }
 
@@ -27,6 +28,7 @@ export const gameState: GameState = {
   level: 1,
   progress: Progress.ready,
   spaceList: getEmptySpaceListAll(),
+  currentBlock: null,
   setGameState: _.noop,
 };
 
