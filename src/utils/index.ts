@@ -26,15 +26,18 @@ export const getRandomBlock = (): Block => {
   return blockClassList[i];
 };
 
-interface Location {
+export interface Location {
   d_1: number;
   d_2: number;
 }
 
+const isBlockSpace = (space: Space): boolean =>
+  space._state === SpaceState.block;
+
 const isTopPositionOfBlock = (location: Location, block: Block): boolean => {
   const { position } = block;
   const { d_1, d_2 } = location;
-  const isBlock = position[d_1][d_2]._state === SpaceState.block;
+  const isBlock = isBlockSpace(position[d_1][d_2]);
   let isTop = true;
   let cnt = 1;
 
@@ -47,6 +50,46 @@ const isTopPositionOfBlock = (location: Location, block: Block): boolean => {
   }
 
   return isBlock && isTop;
+};
+
+const isBottomPositionOfBlock = (location: Location, block: Block): boolean => {
+  const { position } = block;
+  const { d_1, d_2 } = location;
+  const isBlock = isBlockSpace(position[d_1][d_2]);
+  let isBottom = true;
+  let cnt = 1;
+
+  while (d_1 + cnt < position.length) {
+    if (position[d_1 + cnt][d_2]._state === SpaceState.block) {
+      isBottom = false;
+      break;
+    }
+    cnt++;
+  }
+
+  return isBlock && isBottom;
+};
+
+export const isTouchingAnotherBlock = (
+  location: Location,
+  block: Block,
+  spaceList: Space[][]
+): boolean => {
+  const { position } = block;
+  const { d_1, d_2 } = location;
+
+  const range_d_2 = _.range(d_2, d_2 + position[0].length);
+  const range_d_1 = _.range(d_1, d_1 + position.length);
+
+  return _.some(range_d_1, (d1, i) =>
+    _.some(
+      range_d_2,
+      (d2, j) =>
+        isBottomPositionOfBlock({ d_1: i, d_2: j }, block) &&
+        spaceList[d1] &&
+        isBlockSpace(spaceList[d1][d2])
+    )
+  );
 };
 
 export const getSpaceList = (
@@ -63,7 +106,7 @@ export const getSpaceList = (
 
   _.forEach(range_d_1, (d1, i) =>
     _.forEach(range_d_2, (d2, j) => {
-      if (_.isEqual(position[i][j]._state, SpaceState.block)) {
+      if (isBlockSpace(position[i][j])) {
         cloned[d1][d2] = new Space_Block(color);
 
         if (

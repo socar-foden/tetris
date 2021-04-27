@@ -11,7 +11,9 @@ import {
   getEmptySpaceListAll,
   getRandomBlock,
   getSpaceList,
+  isTouchingAnotherBlock,
 } from "../../utils";
+import { Location } from "../../utils/index";
 
 let timeout;
 
@@ -32,27 +34,33 @@ const Info: React.FC = () => {
     let block = getRandomBlock();
 
     timeout = setInterval(() => {
-      if (count + block.position.length <= 25) {
-        setGameState((prev) => ({
-          ...prev,
-          spaceList: getSpaceList(
-            { d_1: count, d_2: 7 },
-            block,
-            prev.spaceList
-          ),
-        }));
-        count++;
-      } else {
-        setGameState((prev) => {
+      setGameState((prev) => {
+        const location: Location = { d_1: count, d_2: 7 };
+        const touchingFloor = count + block.position.length > 25;
+        const touchingBlock = isTouchingAnotherBlock(
+          location,
+          block,
+          prev.spaceList
+        );
+
+        if (!touchingFloor && !touchingBlock) {
+          count++;
+
+          return {
+            ...prev,
+            location,
+            spaceList: getSpaceList(location, block, prev.spaceList),
+          };
+        } else {
+          count = 0;
           block = prev.nextList[0];
 
           return {
             ...prev,
             nextList: [prev.nextList[1], getRandomBlock()],
           };
-        });
-        count = 0;
-      }
+        }
+      });
     }, 100);
   };
 
