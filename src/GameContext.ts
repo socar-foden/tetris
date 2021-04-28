@@ -2,7 +2,7 @@ import React from "react";
 import _ from "lodash";
 import { Block } from "./models/blocks";
 import { Space } from "./models/spaces";
-import { getEmptySpaceListAll } from "./utils";
+import { getEmptySpaceListAll, Location } from "./utils";
 
 export const enum Progress {
   ready,
@@ -18,6 +18,7 @@ export interface GameState {
   progress: Progress;
   spaceList: Space[][];
   currentBlock: Block;
+  currentLocation: Location;
   setGameState: (callback: (gameState: GameState) => GameState) => void;
 }
 
@@ -29,6 +30,7 @@ export const gameState: GameState = {
   progress: Progress.ready,
   spaceList: getEmptySpaceListAll(),
   currentBlock: null,
+  currentLocation: null,
   setGameState: _.noop,
 };
 

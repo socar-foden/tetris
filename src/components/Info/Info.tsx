@@ -35,10 +35,10 @@ const Info: React.FC = () => {
 
     timeout = setInterval(() => {
       setGameState((prev) => {
-        const location: Location = { d_1: count, d_2: 7 };
+        const currentLocation: Location = { d_1: count, d_2: 7 };
         const touchingFloor = count + currentBlock.position.length > 25;
         const touchingBlock = isTouchingAnotherBlock(
-          location,
+          currentLocation,
           currentBlock,
           prev.spaceList
         );
@@ -48,9 +48,13 @@ const Info: React.FC = () => {
 
           return {
             ...prev,
-            location,
             currentBlock,
-            spaceList: getSpaceList(location, currentBlock, prev.spaceList),
+            currentLocation,
+            spaceList: getSpaceList(
+              currentLocation,
+              currentBlock,
+              prev.spaceList
+            ),
           };
         } else {
           count = 0;
@@ -59,6 +63,7 @@ const Info: React.FC = () => {
           return {
             ...prev,
             currentBlock,
+            currentLocation,
             nextList: [prev.nextList[1], getRandomBlock()],
           };
         }
