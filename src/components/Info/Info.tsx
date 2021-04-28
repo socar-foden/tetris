@@ -49,6 +49,7 @@ const Info: React.FC = () => {
           return {
             ...prev,
             location,
+            currentBlock,
             spaceList: getSpaceList(location, currentBlock, prev.spaceList),
           };
         } else {
