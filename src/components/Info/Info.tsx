@@ -36,7 +36,7 @@ const Info: React.FC = () => {
     timeout = setInterval(() => {
       setGameState((prev) => {
         const currentLocation: Location = { d_1: count, d_2: 7 };
-        const touchingFloor = count + currentBlock.position.length > 25;
+        const touchingFloor = count + currentBlock._position.length > 25;
         const touchingBlock = isTouchingAnotherBlock(
           currentLocation,
           currentBlock,
@@ -84,7 +84,7 @@ const Info: React.FC = () => {
       <S.NextInformation>
         {_.map(nextList, (next: Block, index) => (
           <S.RowWrapper key={index}>
-            {_.map(next.position, (rows: Space[], index) => (
+            {_.map(next._position, (rows: Space[], index) => (
               <Game_S.Row key={index}>
                 {_.map(rows, (space: Space, indexR) => (
                   <Game_S.Space

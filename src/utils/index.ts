@@ -35,14 +35,14 @@ const isBlockSpace = (space: Space): boolean =>
   space._state === SpaceState.block;
 
 const isTopPositionOfBlock = (location: Location, block: Block): boolean => {
-  const { position } = block;
+  const { _position } = block;
   const { d_1, d_2 } = location;
-  const isBlock = isBlockSpace(position[d_1][d_2]);
+  const isBlock = isBlockSpace(_position[d_1][d_2]);
   let isTop = true;
   let cnt = 1;
 
   while (d_1 - cnt >= 0) {
-    if (position[d_1 - cnt][d_2]._state === SpaceState.block) {
+    if (_position[d_1 - cnt][d_2]._state === SpaceState.block) {
       isTop = false;
       break;
     }
@@ -53,14 +53,14 @@ const isTopPositionOfBlock = (location: Location, block: Block): boolean => {
 };
 
 const isBottomPositionOfBlock = (location: Location, block: Block): boolean => {
-  const { position } = block;
+  const { _position } = block;
   const { d_1, d_2 } = location;
-  const isBlock = isBlockSpace(position[d_1][d_2]);
+  const isBlock = isBlockSpace(_position[d_1][d_2]);
   let isBottom = true;
   let cnt = 1;
 
-  while (d_1 + cnt < position.length) {
-    if (position[d_1 + cnt][d_2]._state === SpaceState.block) {
+  while (d_1 + cnt < _position.length) {
+    if (_position[d_1 + cnt][d_2]._state === SpaceState.block) {
       isBottom = false;
       break;
     }
@@ -75,11 +75,11 @@ export const isTouchingAnotherBlock = (
   block: Block,
   spaceList: Space[][]
 ): boolean => {
-  const { position } = block;
+  const { _position } = block;
   const { d_1, d_2 } = location;
 
-  const range_d_2 = _.range(d_2, d_2 + position[0].length);
-  const range_d_1 = _.range(d_1, d_1 + position.length);
+  const range_d_2 = _.range(d_2, d_2 + _position[0].length);
+  const range_d_1 = _.range(d_1, d_1 + _position.length);
 
   return _.some(range_d_1, (d1, i) =>
     _.some(
@@ -99,14 +99,14 @@ export const getSpaceList = (
 ): Space[][] => {
   const cloned = _.cloneDeep(spaceList);
   const { d_1, d_2 } = location;
-  const { position, color } = block;
+  const { _position, color } = block;
 
-  const range_d_2 = _.range(d_2, d_2 + position[0].length);
-  const range_d_1 = _.range(d_1, d_1 + position.length);
+  const range_d_2 = _.range(d_2, d_2 + _position[0].length);
+  const range_d_1 = _.range(d_1, d_1 + _position.length);
 
   _.forEach(range_d_1, (d1, i) =>
     _.forEach(range_d_2, (d2, j) => {
-      if (isBlockSpace(position[i][j])) {
+      if (isBlockSpace(_position[i][j])) {
         cloned[d1][d2] = new Space_Block(color);
 
         if (

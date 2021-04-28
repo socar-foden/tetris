@@ -11,7 +11,7 @@ const enum BlockType {
 }
 
 export class Block {
-  protected _position: Space[][];
+  _position: Space[][];
   _direction: number;
   protected _type: BlockType;
   protected _color: string;
@@ -21,9 +21,6 @@ export class Block {
     this._border = "1px solid black";
   }
 
-  get position() {
-    return this._position;
-  }
   get type() {
     return this._type;
   }
