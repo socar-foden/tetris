@@ -1,6 +1,6 @@
 import { Space, Space_Block, Space_Empty } from "./spaces";
 
-const enum BlockType {
+export const enum BlockType {
   I,
   O,
   Z,
@@ -8,6 +8,7 @@ const enum BlockType {
   J,
   L,
   T,
+  Empty,
 }
 
 export class Block {
@@ -29,6 +30,29 @@ export class Block {
   }
   get border() {
     return this._border;
+  }
+}
+
+// 싱글톤
+export class Block_Empty extends Block {
+  private static _instance: Block_Empty;
+
+  private constructor(position: Space[][]) {
+    super();
+
+    this._direction = 0;
+    this._border = "1px dotted black";
+    this._type = BlockType.Empty;
+    this._color = "";
+    this._position = position;
+  }
+
+  static getInstance(position: Space[][]) {
+    if (!Block_Empty._instance) {
+      Block_Empty._instance = new Block_Empty(position);
+    }
+
+    return Block_Empty._instance;
   }
 }
 
