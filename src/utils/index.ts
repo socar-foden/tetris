@@ -8,6 +8,7 @@ import {
   Block_S,
   Block_T,
   Block_Z,
+  BlockType,
 } from "../models/blocks";
 import { Space, SpaceState, Space_Block, Space_Empty } from "../models/spaces";
 
@@ -107,7 +108,11 @@ export const getSpaceList = (
   _.forEach(range_d_1, (d1, i) =>
     _.forEach(range_d_2, (d2, j) => {
       if (isBlockSpace(_position[i][j])) {
-        cloned[d1][d2] = new Space_Block(color);
+        if (block.type === BlockType.Empty) {
+          cloned[d1][d2] = new Space_Empty();
+        } else {
+          cloned[d1][d2] = new Space_Block(color);
+        }
 
         if (
           isTopPositionOfBlock({ d_1: i, d_2: j }, block) &&
