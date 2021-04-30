@@ -1,4 +1,5 @@
 import _ from "lodash";
+import fp from "lodash/fp";
 import {
   Block,
   Block_I,
@@ -129,3 +130,21 @@ export const getSpaceList = (
 
 export const getEmptySpaceListAll = () =>
   _.times(25, () => _.times(15, () => new Space_Empty()));
+
+export const getRotatedBlock = (block: Block): Block => {
+  const rotated: Block = _.cloneDeep(block);
+  const { _position } = rotated;
+  const rotatedPosition: Space[][] = [];
+
+  _.forEach(_position[0], (row, i) => {
+    const inner = [];
+    _.forEach(_position, (space, j) => {
+      inner.push(_position[j][i]);
+    });
+    rotatedPosition.unshift(inner);
+  });
+
+  rotated._position = rotatedPosition;
+
+  return rotated;
+};
