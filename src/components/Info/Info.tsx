@@ -23,23 +23,25 @@ const Info: React.FC = () => {
   const isReady = fp.isEqual(progress, Progress.ready);
 
   const handleClickStart = () => {
+    let currentBlock = getRandomBlock();
+
     setGameState((prev) => ({
       ...prev,
       progress: Progress.proceeding,
+      currentBlock,
       nextList: [getRandomBlock(), getRandomBlock()],
       spaceList: getEmptySpaceListAll(),
     }));
 
     let count = 0;
-    let currentBlock = getRandomBlock();
 
     timeout = setInterval(() => {
       setGameState((prev) => {
         const currentLocation: Location = { d_1: count, d_2: 7 };
-        const touchingFloor = count + currentBlock._position.length > 25;
+        const touchingFloor = count + prev.currentBlock._position.length > 25;
         const touchingBlock = isTouchingAnotherBlock(
           currentLocation,
-          currentBlock,
+          prev.currentBlock,
           prev.spaceList
         );
 
@@ -48,27 +50,25 @@ const Info: React.FC = () => {
 
           return {
             ...prev,
-            currentBlock,
             currentLocation,
             spaceList: getSpaceList(
               currentLocation,
-              currentBlock,
+              prev.currentBlock,
               prev.spaceList
             ),
           };
         } else {
           count = 0;
-          currentBlock = prev.nextList[0];
 
           return {
             ...prev,
-            currentBlock,
+            currentBlock: prev.nextList[0],
             currentLocation,
             nextList: [prev.nextList[1], getRandomBlock()],
           };
         }
       });
-    }, 100);
+    }, 1000);
   };
 
   const handleClickEnd = () => {
