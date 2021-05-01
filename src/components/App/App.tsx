@@ -9,6 +9,7 @@ import {
   getSpaceList,
   isTouchingAnotherBlock,
   Location,
+  getNextLocation,
 } from "../../utils";
 import Game from "../Game/Game";
 import GlobalStyle from "../GlobalStyle";
@@ -43,11 +44,12 @@ const App: React.FC = () => {
         };
       });
 
-      // TODO: 아래 키보드 로직은 따른데로 좀 분리해야 함
-      // TODO: 아래 키보드 로직은 따른데로 좀 분리해야 함
-      // TODO: 아래 키보드 로직은 따른데로 좀 분리해야 함
-      // TODO: 아래 키보드 로직은 따른데로 좀 분리해야 함
       setState((prev) => {
+        const nextLocation: Location = getNextLocation(
+          key,
+          prev.currentLocation
+        );
+
         // TODO: 회전시 주변 어느 블록과도 겹치지 않아야 함
         // TODO: 회전시 주변 어느 블록과도 겹치지 않아야 함
         // TODO: 회전시 주변 어느 블록과도 겹치지 않아야 함
@@ -57,18 +59,10 @@ const App: React.FC = () => {
           return {
             ...prev,
             currentBlock,
-            spaceList: getSpaceList(
-              prev.currentLocation,
-              currentBlock,
-              prev.spaceList
-            ),
+            currentLocation: nextLocation,
+            spaceList: getSpaceList(nextLocation, currentBlock, prev.spaceList),
           };
         } else if (key === "ArrowDown") {
-          const nextLocation: Location = {
-            ...prev.currentLocation,
-            d_1: prev.currentLocation.d_1 + 1,
-          };
-
           const touchingFloor =
             nextLocation.d_1 + prev.currentBlock._position.length > 25;
           const touchingBlock = isTouchingAnotherBlock(
@@ -83,11 +77,6 @@ const App: React.FC = () => {
             return getGameStateByLocation(prev, prev.currentLocation);
           }
         } else if (key === "ArrowLeft") {
-          const nextLocation: Location = {
-            ...prev.currentLocation,
-            d_2: prev.currentLocation.d_2 - 1,
-          };
-
           const touchingLeft = nextLocation.d_2 < 0;
 
           if (!touchingLeft) {
@@ -96,11 +85,6 @@ const App: React.FC = () => {
             return getGameStateByLocation(prev, prev.currentLocation);
           }
         } else if (key === "ArrowRight") {
-          const nextLocation: Location = {
-            ...prev.currentLocation,
-            d_2: prev.currentLocation.d_2 + 1,
-          };
-
           const touchingRight =
             nextLocation.d_2 + prev.currentBlock._position[0].length > 15;
 

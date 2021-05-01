@@ -156,3 +156,35 @@ export const getGameStateByLocation = (
   currentLocation: location,
   spaceList: getSpaceList(location, prev.currentBlock, prev.spaceList),
 });
+
+export const getNextLocation = (key: string, location: Location): Location =>
+  fp.flow(
+    fp.find((item: any) => fp.isEqual(item.key, key)),
+    fp.get("nextLocation")
+  )([
+    {
+      key: "ArrowUp",
+      nextLocation: { ...location },
+    },
+    {
+      key: "ArrowDown",
+      nextLocation: {
+        ...location,
+        d_1: location.d_1 + 1,
+      },
+    },
+    {
+      key: "ArrowLeft",
+      nextLocation: {
+        ...location,
+        d_2: location.d_2 - 1,
+      },
+    },
+    {
+      key: "ArrowRight",
+      nextLocation: {
+        ...location,
+        d_2: location.d_2 + 1,
+      },
+    },
+  ]);
