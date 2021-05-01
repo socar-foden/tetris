@@ -11,7 +11,7 @@ import {
   getEmptySpaceListAll,
   getRandomBlock,
   getSpaceList,
-  isTouchingAnotherBlock,
+  isTouchingBlockBelow,
 } from "../../utils";
 import { Location } from "../../utils/index";
 
@@ -49,13 +49,13 @@ const Info: React.FC = () => {
 
         const touchingFloor =
           nextLocation.d_1 + prev.currentBlock._position.length > 25;
-        const touchingBlock = isTouchingAnotherBlock(
+        const touchingBlockBelow = isTouchingBlockBelow(
           nextLocation,
           prev.currentBlock._position,
           prev.spaceList
         );
 
-        if (!touchingFloor && !touchingBlock) {
+        if (!touchingFloor && !touchingBlockBelow) {
           return {
             ...prev,
             currentLocation: nextLocation,

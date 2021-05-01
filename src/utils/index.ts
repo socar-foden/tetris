@@ -75,7 +75,7 @@ const isBottomOfPosition = (
   return isBlock && isBottom;
 };
 
-export const isTouchingAnotherBlock = (
+export const isTouchingBlockBelow = (
   { d_1, d_2 }: Location,
   position: Space[][],
   spaceList: Space[][]

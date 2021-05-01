@@ -7,7 +7,7 @@ import {
   getRotatedBlock,
   getGameStateByLocation,
   getSpaceList,
-  isTouchingAnotherBlock,
+  isTouchingBlockBelow,
   Location,
   getNextLocation,
 } from "../../utils";
@@ -65,13 +65,13 @@ const App: React.FC = () => {
         } else if (key === "ArrowDown") {
           const touchingFloor =
             nextLocation.d_1 + prev.currentBlock._position.length > 25;
-          const touchingBlock = isTouchingAnotherBlock(
+          const touchingBlockBelow = isTouchingBlockBelow(
             nextLocation,
             prev.currentBlock._position,
             prev.spaceList
           );
 
-          if (!touchingFloor && !touchingBlock) {
+          if (!touchingFloor && !touchingBlockBelow) {
             return getGameStateByLocation(prev, nextLocation);
           } else {
             return getGameStateByLocation(prev, prev.currentLocation);
