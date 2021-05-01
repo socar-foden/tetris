@@ -6,8 +6,8 @@ const S = {
     height: 100%;
     display: flex;
     align-items: center;
-    // opacity: 0.9;
-    // background: url(./resources/images/background.jpg);
+    opacity: 0.9;
+    background: url(./resources/images/background.jpg);
   `,
   Main: styled.main`
     width: 100%;
