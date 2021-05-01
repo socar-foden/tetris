@@ -1,5 +1,6 @@
 import _ from "lodash";
 import fp from "lodash/fp";
+import { GameState } from "../GameContext";
 import {
   Block,
   Block_I,
@@ -146,3 +147,12 @@ export const getRotatedBlock = (block: Block): Block => {
 
   return rotated;
 };
+
+export const getGameStateByLocation = (
+  prev: GameState,
+  location: Location
+): GameState => ({
+  ...prev,
+  currentLocation: location,
+  spaceList: getSpaceList(location, prev.currentBlock, prev.spaceList),
+});

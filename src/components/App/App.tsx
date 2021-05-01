@@ -5,6 +5,7 @@ import GameContext, { gameState, Progress } from "../../GameContext";
 import { Block_Empty } from "../../models/blocks";
 import {
   getRotatedBlock,
+  getGameStateByLocation,
   getSpaceList,
   isTouchingAnotherBlock,
   Location,
@@ -46,11 +47,11 @@ const App: React.FC = () => {
       // TODO: 아래 키보드 로직은 따른데로 좀 분리해야 함
       // TODO: 아래 키보드 로직은 따른데로 좀 분리해야 함
       // TODO: 아래 키보드 로직은 따른데로 좀 분리해야 함
-      if (key === "ArrowUp") {
+      setState((prev) => {
         // TODO: 회전시 주변 어느 블록과도 겹치지 않아야 함
         // TODO: 회전시 주변 어느 블록과도 겹치지 않아야 함
         // TODO: 회전시 주변 어느 블록과도 겹치지 않아야 함
-        setState((prev) => {
+        if (key === "ArrowUp") {
           const currentBlock = getRotatedBlock(prev.currentBlock);
 
           return {
@@ -62,9 +63,7 @@ const App: React.FC = () => {
               prev.spaceList
             ),
           };
-        });
-      } else if (key === "ArrowDown") {
-        setState((prev) => {
+        } else if (key === "ArrowDown") {
           const nextLocation: Location = {
             ...prev.currentLocation,
             d_1: prev.currentLocation.d_1 + 1,
@@ -79,29 +78,11 @@ const App: React.FC = () => {
           );
 
           if (!touchingFloor && !touchingBlock) {
-            return {
-              ...prev,
-              currentLocation: nextLocation,
-              spaceList: getSpaceList(
-                nextLocation,
-                prev.currentBlock,
-                prev.spaceList
-              ),
-            };
+            return getGameStateByLocation(prev, nextLocation);
           } else {
-            return {
-              ...prev,
-              currentLocation: prev.currentLocation,
-              spaceList: getSpaceList(
-                prev.currentLocation,
-                prev.currentBlock,
-                prev.spaceList
-              ),
-            };
+            return getGameStateByLocation(prev, prev.currentLocation);
           }
-        });
-      } else if (key === "ArrowLeft") {
-        setState((prev) => {
+        } else if (key === "ArrowLeft") {
           const nextLocation: Location = {
             ...prev.currentLocation,
             d_2: prev.currentLocation.d_2 - 1,
@@ -110,29 +91,11 @@ const App: React.FC = () => {
           const touchingLeft = nextLocation.d_2 < 0;
 
           if (!touchingLeft) {
-            return {
-              ...prev,
-              currentLocation: nextLocation,
-              spaceList: getSpaceList(
-                nextLocation,
-                prev.currentBlock,
-                prev.spaceList
-              ),
-            };
+            return getGameStateByLocation(prev, nextLocation);
           } else {
-            return {
-              ...prev,
-              currentLocation: prev.currentLocation,
-              spaceList: getSpaceList(
-                prev.currentLocation,
-                prev.currentBlock,
-                prev.spaceList
-              ),
-            };
+            return getGameStateByLocation(prev, prev.currentLocation);
           }
-        });
-      } else if (key === "ArrowRight") {
-        setState((prev) => {
+        } else if (key === "ArrowRight") {
           const nextLocation: Location = {
             ...prev.currentLocation,
             d_2: prev.currentLocation.d_2 + 1,
@@ -142,28 +105,12 @@ const App: React.FC = () => {
             nextLocation.d_2 + prev.currentBlock._position[0].length > 15;
 
           if (!touchingRight) {
-            return {
-              ...prev,
-              currentLocation: nextLocation,
-              spaceList: getSpaceList(
-                nextLocation,
-                prev.currentBlock,
-                prev.spaceList
-              ),
-            };
+            return getGameStateByLocation(prev, nextLocation);
           } else {
-            return {
-              ...prev,
-              currentLocation: prev.currentLocation,
-              spaceList: getSpaceList(
-                prev.currentLocation,
-                prev.currentBlock,
-                prev.spaceList
-              ),
-            };
+            return getGameStateByLocation(prev, prev.currentLocation);
           }
-        });
-      }
+        }
+      });
     }
   };
 
