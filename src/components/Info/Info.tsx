@@ -69,7 +69,7 @@ const Info: React.FC = () => {
           return {
             ...prev,
             currentBlock: prev.nextList[0],
-            currentLocation: startLocation,
+            currentLocation: { d_1: -1, d_2: 7 },
             nextList: [prev.nextList[1], getRandomBlock()],
           };
         }
