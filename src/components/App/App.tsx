@@ -26,7 +26,10 @@ const App: React.FC = () => {
 
     if (
       progress === Progress.proceeding &&
-      _.find(["ArrowUp", "ArrowDown"], fp.isEqual(key))
+      _.find(
+        ["ArrowUp", "ArrowDown", "ArrowLeft", "ArrowRight"],
+        fp.isEqual(key)
+      )
     ) {
       setState((prev) => {
         return {
@@ -39,7 +42,14 @@ const App: React.FC = () => {
         };
       });
 
+      // TODO: 아래 키보드 로직은 따른데로 좀 분리해야 함
+      // TODO: 아래 키보드 로직은 따른데로 좀 분리해야 함
+      // TODO: 아래 키보드 로직은 따른데로 좀 분리해야 함
+      // TODO: 아래 키보드 로직은 따른데로 좀 분리해야 함
       if (key === "ArrowUp") {
+        // TODO: 회전시 주변 어느 블록과도 겹치지 않아야 함
+        // TODO: 회전시 주변 어느 블록과도 겹치지 않아야 함
+        // TODO: 회전시 주변 어느 블록과도 겹치지 않아야 함
         setState((prev) => {
           const currentBlock = getRotatedBlock(prev.currentBlock);
 
@@ -69,6 +79,69 @@ const App: React.FC = () => {
           );
 
           if (!touchingFloor && !touchingBlock) {
+            return {
+              ...prev,
+              currentLocation: nextLocation,
+              spaceList: getSpaceList(
+                nextLocation,
+                prev.currentBlock,
+                prev.spaceList
+              ),
+            };
+          } else {
+            return {
+              ...prev,
+              currentLocation: prev.currentLocation,
+              spaceList: getSpaceList(
+                prev.currentLocation,
+                prev.currentBlock,
+                prev.spaceList
+              ),
+            };
+          }
+        });
+      } else if (key === "ArrowLeft") {
+        setState((prev) => {
+          const nextLocation: Location = {
+            ...prev.currentLocation,
+            d_2: prev.currentLocation.d_2 - 1,
+          };
+
+          const touchingLeft = nextLocation.d_2 < 0;
+
+          if (!touchingLeft) {
+            return {
+              ...prev,
+              currentLocation: nextLocation,
+              spaceList: getSpaceList(
+                nextLocation,
+                prev.currentBlock,
+                prev.spaceList
+              ),
+            };
+          } else {
+            return {
+              ...prev,
+              currentLocation: prev.currentLocation,
+              spaceList: getSpaceList(
+                prev.currentLocation,
+                prev.currentBlock,
+                prev.spaceList
+              ),
+            };
+          }
+        });
+      } else if (key === "ArrowRight") {
+        setState((prev) => {
+          const nextLocation: Location = {
+            ...prev.currentLocation,
+            d_2: prev.currentLocation.d_2 + 1,
+          };
+
+          const touchingRight =
+            nextLocation.d_2 + prev.currentBlock._position[0].length > 15;
+
+          if (!touchingRight) {
             return {
               ...prev,
               currentLocation: nextLocation,
