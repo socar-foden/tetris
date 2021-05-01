@@ -97,7 +97,18 @@ const isBottomOfPosition = (
 };
 
 /**
- * 해당 블럭이 게임영역 바닥에 닿았는지 여부 파악
+ * 포지션의 탐색범위를 반환
+ * @param location
+ * @param position
+ * @returns
+ */
+const getRangeInfo = ({ d_1, d_2 }: Location, position: Space[][]) => [
+  _.range(d_2, d_2 + position[0].length),
+  _.range(d_1, d_1 + position.length),
+];
+
+/**
+ * 해당 블럭의 아랫쪽이 다른 블럭에 닿았는지 파악
  * @param location
  * @param position
  * @param spaceList
@@ -108,8 +119,32 @@ export const isTouchingBlockBelow = (
   position: Space[][],
   spaceList: Space[][]
 ): boolean => {
-  const range_d_2 = _.range(d_2, d_2 + position[0].length);
-  const range_d_1 = _.range(d_1, d_1 + position.length);
+  const [range_d_2, range_d_1] = getRangeInfo({ d_1, d_2 }, position);
+
+  return _.some(range_d_1, (d1, i) =>
+    _.some(
+      range_d_2,
+      (d2, j) =>
+        isBottomOfPosition({ d_1: i, d_2: j }, position) &&
+        spaceList[d1] &&
+        isBlockSpace(spaceList[d1][d2])
+    )
+  );
+};
+
+/**
+ * 해당 블럭의 왼쪽이 다른 블럭에 닿았는지 파악
+ * @param location
+ * @param position
+ * @param spaceList
+ * @returns
+ */
+export const isTouchingBlockLeft = (
+  { d_1, d_2 }: Location,
+  position: Space[][],
+  spaceList: Space[][]
+): boolean => {
+  const [range_d_2, range_d_1] = getRangeInfo({ d_1, d_2 }, position);
 
   return _.some(range_d_1, (d1, i) =>
     _.some(
@@ -136,9 +171,7 @@ export const getSpaceList = (
 ): Space[][] => {
   const cloned = _.cloneDeep(spaceList);
   const { _position, color } = block;
-
-  const range_d_2 = _.range(d_2, d_2 + _position[0].length);
-  const range_d_1 = _.range(d_1, d_1 + _position.length);
+  const [range_d_2, range_d_1] = getRangeInfo({ d_1, d_2 }, _position);
 
   _.forEach(range_d_1, (d1, i) =>
     _.forEach(range_d_2, (d2, j) => {
