@@ -28,6 +28,11 @@ const Info: React.FC = () => {
 
     setGameState((prev) => ({
       ...prev,
+      spaceList: getEmptySpaceListAll(),
+    }));
+
+    setGameState((prev) => ({
+      ...prev,
       progress: Progress.proceeding,
       currentBlock,
       currentLocation: startLocation,
