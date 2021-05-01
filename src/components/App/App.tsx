@@ -74,7 +74,7 @@ const App: React.FC = () => {
             nextLocation.d_1 + prev.currentBlock._position.length > 25;
           const touchingBlock = isTouchingAnotherBlock(
             nextLocation,
-            prev.currentBlock,
+            prev.currentBlock._position,
             prev.spaceList
           );
 

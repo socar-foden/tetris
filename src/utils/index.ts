@@ -36,15 +36,16 @@ export interface Location {
 const isBlockSpace = (space: Space): boolean =>
   space._state === SpaceState.block;
 
-const isTopPositionOfBlock = (location: Location, block: Block): boolean => {
-  const { _position } = block;
-  const { d_1, d_2 } = location;
-  const isBlock = isBlockSpace(_position[d_1][d_2]);
+const isTopOfPosition = (
+  { d_1, d_2 }: Location,
+  position: Space[][]
+): boolean => {
+  const isBlock = isBlockSpace(position[d_1][d_2]);
   let isTop = true;
   let cnt = 1;
 
   while (d_1 - cnt >= 0) {
-    if (_position[d_1 - cnt][d_2]._state === SpaceState.block) {
+    if (position[d_1 - cnt][d_2]._state === SpaceState.block) {
       isTop = false;
       break;
     }
@@ -54,15 +55,16 @@ const isTopPositionOfBlock = (location: Location, block: Block): boolean => {
   return isBlock && isTop;
 };
 
-const isBottomPositionOfBlock = (location: Location, block: Block): boolean => {
-  const { _position } = block;
-  const { d_1, d_2 } = location;
-  const isBlock = isBlockSpace(_position[d_1][d_2]);
+const isBottomOfPosition = (
+  { d_1, d_2 }: Location,
+  position: Space[][]
+): boolean => {
+  const isBlock = isBlockSpace(position[d_1][d_2]);
   let isBottom = true;
   let cnt = 1;
 
-  while (d_1 + cnt < _position.length) {
-    if (_position[d_1 + cnt][d_2]._state === SpaceState.block) {
+  while (d_1 + cnt < position.length) {
+    if (position[d_1 + cnt][d_2]._state === SpaceState.block) {
       isBottom = false;
       break;
     }
@@ -73,21 +75,18 @@ const isBottomPositionOfBlock = (location: Location, block: Block): boolean => {
 };
 
 export const isTouchingAnotherBlock = (
-  location: Location,
-  block: Block,
+  { d_1, d_2 }: Location,
+  position: Space[][],
   spaceList: Space[][]
 ): boolean => {
-  const { _position } = block;
-  const { d_1, d_2 } = location;
-
-  const range_d_2 = _.range(d_2, d_2 + _position[0].length);
-  const range_d_1 = _.range(d_1, d_1 + _position.length);
+  const range_d_2 = _.range(d_2, d_2 + position[0].length);
+  const range_d_1 = _.range(d_1, d_1 + position.length);
 
   return _.some(range_d_1, (d1, i) =>
     _.some(
       range_d_2,
       (d2, j) =>
-        isBottomPositionOfBlock({ d_1: i, d_2: j }, block) &&
+        isBottomOfPosition({ d_1: i, d_2: j }, position) &&
         spaceList[d1] &&
         isBlockSpace(spaceList[d1][d2])
     )
@@ -95,12 +94,11 @@ export const isTouchingAnotherBlock = (
 };
 
 export const getSpaceList = (
-  location: Location,
+  { d_1, d_2 }: Location,
   block: Block,
   spaceList: Space[][]
 ): Space[][] => {
   const cloned = _.cloneDeep(spaceList);
-  const { d_1, d_2 } = location;
   const { _position, color } = block;
 
   const range_d_2 = _.range(d_2, d_2 + _position[0].length);
@@ -116,7 +114,7 @@ export const getSpaceList = (
         }
 
         if (
-          isTopPositionOfBlock({ d_1: i, d_2: j }, block) &&
+          isTopOfPosition({ d_1: i, d_2: j }, block._position) &&
           !!cloned[d1 - 1]
         ) {
           cloned[d1 - 1][d2] = new Space_Empty();
