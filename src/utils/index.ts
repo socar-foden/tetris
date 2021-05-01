@@ -14,6 +14,15 @@ import {
 } from "../models/blocks";
 import { Space, SpaceState, Space_Block, Space_Empty } from "../models/spaces";
 
+export interface Location {
+  d_1: number;
+  d_2: number;
+}
+
+/**
+ * 블럭 랜덤으로 얻기
+ * @returns Block
+ */
 export const getRandomBlock = (): Block => {
   const blockClassList: Block[] = [
     new Block_I(),
@@ -29,14 +38,20 @@ export const getRandomBlock = (): Block => {
   return blockClassList[i];
 };
 
-export interface Location {
-  d_1: number;
-  d_2: number;
-}
-
+/**
+ * space가 block상태인지 파악
+ * @param space
+ * @returns
+ */
 const isBlockSpace = (space: Space): boolean =>
   space._state === SpaceState.block;
 
+/**
+ * 각 블럭의 최상단에 위치한 조각인지 파악
+ * @param location
+ * @param position
+ * @returns
+ */
 const isTopOfPosition = (
   { d_1, d_2 }: Location,
   position: Space[][]
@@ -56,6 +71,12 @@ const isTopOfPosition = (
   return isBlock && isTop;
 };
 
+/**
+ * 각 블럭의 최하단에 위치한 조각인지 파악
+ * @param location
+ * @param position
+ * @returns
+ */
 const isBottomOfPosition = (
   { d_1, d_2 }: Location,
   position: Space[][]
@@ -75,6 +96,13 @@ const isBottomOfPosition = (
   return isBlock && isBottom;
 };
 
+/**
+ * 해당 블럭이 게임영역 바닥에 닿았는지 여부 파악
+ * @param location
+ * @param position
+ * @param spaceList
+ * @returns
+ */
 export const isTouchingBlockBelow = (
   { d_1, d_2 }: Location,
   position: Space[][],
@@ -94,6 +122,13 @@ export const isTouchingBlockBelow = (
   );
 };
 
+/**
+ * ** 매 액션마다 게임영역을 새로 그려주는 로직
+ * @param location
+ * @param block
+ * @param spaceList
+ * @returns
+ */
 export const getSpaceList = (
   { d_1, d_2 }: Location,
   block: Block,
@@ -127,6 +162,10 @@ export const getSpaceList = (
   return cloned;
 };
 
+/**
+ * 완전히 비어있는 게임영역을 반환
+ * @returns
+ */
 export const getEmptySpaceListAll = () =>
   _.times(25, () => _.times(15, () => new Space_Empty()));
 
@@ -148,6 +187,12 @@ export const getRotatedBlock = (block: Block): Block => {
   return rotated;
 };
 
+/**
+ * location을 기준으로, 다음 시점에 그려질 게임영역을 반환
+ * @param prev
+ * @param location
+ * @returns
+ */
 export const getGameStateByLocation = (
   prev: GameState,
   location: Location
@@ -157,6 +202,12 @@ export const getGameStateByLocation = (
   spaceList: getSpaceList(location, prev.currentBlock, prev.spaceList),
 });
 
+/**
+ * 키보드의 각 key별, 다음 시점의 블럭을 그리는 기준이 될 location을 반환
+ * @param key
+ * @param location
+ * @returns
+ */
 export const getNextLocation = (key: string, location: Location): Location =>
   fp.flow(
     fp.find((item: any) => fp.isEqual(item.key, key)),
