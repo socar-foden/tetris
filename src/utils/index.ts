@@ -158,74 +158,31 @@ const getRangeInfo = ({ d_1, d_2 }: Location, position: Space[][]) => [
   _.range(d_1, d_1 + position.length),
 ];
 
-// TODO: 각 방향별 체크 함수 추상화
 /**
- * 해당 블럭의 아랫쪽이 다른 블럭에 닿았는지 파악
+ * 해당 블럭이, 특정 방향으로 다른 블럭에 닿아있는지 파악
  * @param location
  * @param position
  * @param spaceList
  * @returns
  */
-export const isTouchingBlockBelow = (
+export const isTouchingBlock = (
+  direction: string,
   { d_1, d_2 }: Location,
   position: Space[][],
   spaceList: Space[][]
 ): boolean => {
   const [range_d_2, range_d_1] = getRangeInfo({ d_1, d_2 }, position);
+  const judgePositionMap = {
+    Bottom: isBottomOfPosition,
+    Left: isLeftOfPosition,
+    Right: isRightOfPosition,
+  };
 
   return _.some(range_d_1, (d1, i) =>
     _.some(
       range_d_2,
       (d2, j) =>
-        isBottomOfPosition({ d_1: i, d_2: j }, position) &&
-        isBlockSpace(_.get(spaceList, [d1, d2]))
-    )
-  );
-};
-
-/**
- * 해당 블럭의 왼쪽이 다른 블럭에 닿았는지 파악
- * @param location
- * @param position
- * @param spaceList
- * @returns
- */
-export const isTouchingBlockLeft = (
-  { d_1, d_2 }: Location,
-  position: Space[][],
-  spaceList: Space[][]
-): boolean => {
-  const [range_d_2, range_d_1] = getRangeInfo({ d_1, d_2 }, position);
-
-  return _.some(range_d_1, (d1, i) =>
-    _.some(
-      range_d_2,
-      (d2, j) =>
-        isLeftOfPosition({ d_1: i, d_2: j }, position) &&
-        isBlockSpace(_.get(spaceList, [d1, d2]))
-    )
-  );
-};
-
-/**
- * 해당 블럭의 왼쪽이 다른 블럭에 닿았는지 파악
- * @param location
- * @param position
- * @param spaceList
- * @returns
- */
-export const isTouchingBlockRight = (
-  { d_1, d_2 }: Location,
-  position: Space[][],
-  spaceList: Space[][]
-): boolean => {
-  const [range_d_2, range_d_1] = getRangeInfo({ d_1, d_2 }, position);
-
-  return _.some(range_d_1, (d1, i) =>
-    _.some(
-      range_d_2,
-      (d2, j) =>
-        isRightOfPosition({ d_1: i, d_2: j }, position) &&
+        judgePositionMap[direction]({ d_1: i, d_2: j }, position) &&
         isBlockSpace(_.get(spaceList, [d1, d2]))
     )
   );
