@@ -44,8 +44,9 @@ export const getRandomBlock = (): Block => {
  * @returns
  */
 const isBlockSpace = (space: Space): boolean =>
-  space._state === SpaceState.block;
+  _.isEqual(_.get(space, "_state"), SpaceState.block);
 
+// TODO: is(Top, Bottom....)OfPosition 4가지 함수 추상화
 /**
  * 각 블럭의 최상단에 위치한 조각인지 파악
  * @param location
@@ -97,6 +98,56 @@ const isBottomOfPosition = (
 };
 
 /**
+ * 각 블럭의 최좌측에 위치한 조각인지 파악
+ * @param location
+ * @param position
+ * @returns
+ */
+const isLeftOfPosition = (
+  { d_1, d_2 }: Location,
+  position: Space[][]
+): boolean => {
+  const isBlock = isBlockSpace(position[d_1][d_2]);
+  let isLeft = true;
+  let cnt = 1;
+
+  while (d_2 - cnt >= 0) {
+    if (position[d_1][d_2 - cnt]._state === SpaceState.block) {
+      isLeft = false;
+      break;
+    }
+    cnt++;
+  }
+
+  return isBlock && isLeft;
+};
+
+/**
+ * 각 블럭의 최우측에 위치한 조각인지 파악
+ * @param location
+ * @param position
+ * @returns
+ */
+const isRightOfPosition = (
+  { d_1, d_2 }: Location,
+  position: Space[][]
+): boolean => {
+  const isBlock = isBlockSpace(position[d_1][d_2]);
+  let isRight = true;
+  let cnt = 1;
+
+  while (d_2 + cnt < position[0].length) {
+    if (position[d_1][d_2 + cnt]._state === SpaceState.block) {
+      isRight = false;
+      break;
+    }
+    cnt++;
+  }
+
+  return isBlock && isRight;
+};
+
+/**
  * 포지션의 탐색범위를 반환
  * @param location
  * @param position
@@ -107,6 +158,7 @@ const getRangeInfo = ({ d_1, d_2 }: Location, position: Space[][]) => [
   _.range(d_1, d_1 + position.length),
 ];
 
+// TODO: 각 방향별 체크 함수 추상화
 /**
  * 해당 블럭의 아랫쪽이 다른 블럭에 닿았는지 파악
  * @param location
@@ -126,8 +178,7 @@ export const isTouchingBlockBelow = (
       range_d_2,
       (d2, j) =>
         isBottomOfPosition({ d_1: i, d_2: j }, position) &&
-        spaceList[d1] &&
-        isBlockSpace(spaceList[d1][d2])
+        isBlockSpace(_.get(spaceList, [d1, d2]))
     )
   );
 };
@@ -150,9 +201,32 @@ export const isTouchingBlockLeft = (
     _.some(
       range_d_2,
       (d2, j) =>
-        isBottomOfPosition({ d_1: i, d_2: j }, position) &&
-        spaceList[d1] &&
-        isBlockSpace(spaceList[d1][d2])
+        isLeftOfPosition({ d_1: i, d_2: j }, position) &&
+        isBlockSpace(_.get(spaceList, [d1, d2]))
+    )
+  );
+};
+
+/**
+ * 해당 블럭의 왼쪽이 다른 블럭에 닿았는지 파악
+ * @param location
+ * @param position
+ * @param spaceList
+ * @returns
+ */
+export const isTouchingBlockRight = (
+  { d_1, d_2 }: Location,
+  position: Space[][],
+  spaceList: Space[][]
+): boolean => {
+  const [range_d_2, range_d_1] = getRangeInfo({ d_1, d_2 }, position);
+
+  return _.some(range_d_1, (d1, i) =>
+    _.some(
+      range_d_2,
+      (d2, j) =>
+        isRightOfPosition({ d_1: i, d_2: j }, position) &&
+        isBlockSpace(_.get(spaceList, [d1, d2]))
     )
   );
 };
