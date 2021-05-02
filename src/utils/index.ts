@@ -19,6 +19,13 @@ export interface Location {
   d_2: number;
 }
 
+export const enum Direction {
+  Top,
+  Bottom,
+  Left,
+  Right,
+}
+
 /**
  * 블럭 랜덤으로 얻기
  * @returns Block
@@ -160,22 +167,23 @@ const getRangeInfo = ({ d_1, d_2 }: Location, position: Space[][]) => [
 
 /**
  * 해당 블럭이, 특정 방향으로 다른 블럭에 닿아있는지 파악
+ * @param direction
  * @param location
  * @param position
  * @param spaceList
  * @returns
  */
 export const isTouchingBlock = (
-  direction: string,
+  direction: Direction,
   { d_1, d_2 }: Location,
   position: Space[][],
   spaceList: Space[][]
 ): boolean => {
   const [range_d_2, range_d_1] = getRangeInfo({ d_1, d_2 }, position);
   const judgePositionMap = {
-    Bottom: isBottomOfPosition,
-    Left: isLeftOfPosition,
-    Right: isRightOfPosition,
+    [Direction.Bottom]: isBottomOfPosition,
+    [Direction.Left]: isLeftOfPosition,
+    [Direction.Right]: isRightOfPosition,
   };
 
   return _.some(range_d_1, (d1, i) =>

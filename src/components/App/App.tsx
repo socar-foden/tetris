@@ -10,6 +10,7 @@ import {
   Location,
   getNextLocation,
   isTouchingBlock,
+  Direction,
 } from "../../utils";
 import Game from "../Game/Game";
 import GlobalStyle from "../GlobalStyle";
@@ -66,7 +67,7 @@ const App: React.FC = () => {
           const touchingFloor =
             nextLocation.d_1 + prev.currentBlock._position.length > 25;
           const touchingBlockBelow = isTouchingBlock(
-            "Bottom",
+            Direction.Bottom,
             nextLocation,
             prev.currentBlock._position,
             prev.spaceList
@@ -80,7 +81,7 @@ const App: React.FC = () => {
         } else if (key === "ArrowLeft") {
           const touchingLeft = nextLocation.d_2 < 0;
           const touchingBlockLeft = isTouchingBlock(
-            "Left",
+            Direction.Left,
             nextLocation,
             prev.currentBlock._position,
             prev.spaceList
@@ -95,7 +96,7 @@ const App: React.FC = () => {
           const touchingRight =
             nextLocation.d_2 + prev.currentBlock._position[0].length > 15;
           const touchingBlockRight = isTouchingBlock(
-            "Right",
+            Direction.Right,
             nextLocation,
             prev.currentBlock._position,
             prev.spaceList

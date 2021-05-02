@@ -8,6 +8,7 @@ import When from "../When/When";
 import { Block } from "../../models/blocks";
 import { Space, SpaceState } from "../../models/spaces";
 import {
+  Direction,
   getEmptySpaceListAll,
   getRandomBlock,
   getSpaceList,
@@ -50,7 +51,7 @@ const Info: React.FC = () => {
         const touchingFloor =
           nextLocation.d_1 + prev.currentBlock._position.length > 25;
         const touchingBlockBelow = isTouchingBlock(
-          "Bottom",
+          Direction.Bottom,
           nextLocation,
           prev.currentBlock._position,
           prev.spaceList
