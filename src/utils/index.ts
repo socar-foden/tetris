@@ -26,6 +26,13 @@ export const enum Direction {
   Right,
 }
 
+export const keyDirectionMap = {
+  ArrowUp: Direction.Top,
+  ArrowDown: Direction.Bottom,
+  ArrowLeft: Direction.Left,
+  ArrowRight: Direction.Right,
+};
+
 /**
  * 블럭 랜덤으로 얻기
  * @returns Block
@@ -297,3 +304,21 @@ export const getNextLocation = (key: string, location: Location): Location =>
     },
   }[key]);
 
+/**
+ * 키보드의 각 key별, 게임영역의 경계에 닿는지 파악
+ * @param key
+ * @param location
+ * @param position
+ * @returns
+ */
+export const isTouchingBoundary = (
+  key: string,
+  { d_1, d_2 }: Location,
+  position: Space[][]
+): boolean =>
+  ({
+    ArrowUp: true,
+    ArrowDown: d_1 + position.length > 25,
+    ArrowLeft: d_2 < 0,
+    ArrowRight: d_2 + position[0].length > 15,
+  }[key]);

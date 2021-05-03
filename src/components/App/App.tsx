@@ -10,7 +10,8 @@ import {
   Location,
   getNextLocation,
   isTouchingBlock,
-  Direction,
+  isTouchingBoundary,
+  keyDirectionMap,
 } from "../../utils";
 import Game from "../Game/Game";
 import GlobalStyle from "../GlobalStyle";
@@ -51,9 +52,9 @@ const App: React.FC = () => {
           prev.currentLocation
         );
 
-        // TODO: 회전시 주변 어느 블록과도 겹치지 않아야 함
-        // TODO: 회전시 주변 어느 블록과도 겹치지 않아야 함
-        // TODO: 회전시 주변 어느 블록과도 겹치지 않아야 함
+        // // TODO: 회전시 주변 어느 블록과도 겹치지 않아야 함
+        // // TODO: 회전시 주변 어느 블록과도 겹치지 않아야 함
+        // // TODO: 회전시 주변 어느 블록과도 겹치지 않아야 함
         if (key === "ArrowUp") {
           const currentBlock = getRotatedBlock(prev.currentBlock);
 
@@ -63,46 +64,20 @@ const App: React.FC = () => {
             currentLocation: nextLocation,
             spaceList: getSpaceList(nextLocation, currentBlock, prev.spaceList),
           };
-        } else if (key === "ArrowDown") {
-          const touchingFloor =
-            nextLocation.d_1 + prev.currentBlock._position.length > 25;
-          const touchingBlockBelow = isTouchingBlock(
-            Direction.Bottom,
+        } else {
+          const touchingBoundary = isTouchingBoundary(
+            key,
+            nextLocation,
+            prev.currentBlock._position
+          );
+          const touchingBlock = isTouchingBlock(
+            keyDirectionMap[key],
             nextLocation,
             prev.currentBlock._position,
             prev.spaceList
           );
 
-          if (!touchingFloor && !touchingBlockBelow) {
-            return getGameStateByLocation(prev, nextLocation);
-          } else {
-            return getGameStateByLocation(prev, prev.currentLocation);
-          }
-        } else if (key === "ArrowLeft") {
-          const touchingLeft = nextLocation.d_2 < 0;
-          const touchingBlockLeft = isTouchingBlock(
-            Direction.Left,
-            nextLocation,
-            prev.currentBlock._position,
-            prev.spaceList
-          );
-
-          if (!touchingLeft && !touchingBlockLeft) {
-            return getGameStateByLocation(prev, nextLocation);
-          } else {
-            return getGameStateByLocation(prev, prev.currentLocation);
-          }
-        } else if (key === "ArrowRight") {
-          const touchingRight =
-            nextLocation.d_2 + prev.currentBlock._position[0].length > 15;
-          const touchingBlockRight = isTouchingBlock(
-            Direction.Right,
-            nextLocation,
-            prev.currentBlock._position,
-            prev.spaceList
-          );
-
-          if (!touchingRight && !touchingBlockRight) {
+          if (!touchingBoundary && !touchingBlock) {
             return getGameStateByLocation(prev, nextLocation);
           } else {
             return getGameStateByLocation(prev, prev.currentLocation);
