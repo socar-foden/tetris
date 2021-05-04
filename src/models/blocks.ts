@@ -163,7 +163,6 @@ export class Block_T extends Block {
         new Space_Block(this._color),
       ],
       [new Space_Empty(), new Space_Block(this._color), new Space_Empty()],
-      [new Space_Empty(), new Space_Block(this._color), new Space_Empty()],
     ];
   }
 }
