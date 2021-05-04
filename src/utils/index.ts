@@ -282,26 +282,69 @@ export const getGameStateByLocation = (
 });
 
 /**
+ * 각 포지션(블럭)별 가능한 최저 위치를 반환
+ * @param location
+ * @param position
+ * @param spaceList
+ */
+const getEnableBottomLocation = (
+  { d_1, d_2 }: Location,
+  position: Space[][],
+  spaceList: Space[][]
+): Location => {
+  let next_d_1 = 0;
+
+  let touchingBoundary = false;
+  let touchingBlock = false;
+
+  while (!touchingBoundary && !touchingBlock) {
+    touchingBoundary = isTouchingBoundary(
+      "ArrowDown",
+      { d_1: next_d_1, d_2 },
+      position
+    );
+    touchingBlock = isTouchingBlock(
+      keyDirectionMap["ArrowDown"],
+      { d_1: next_d_1, d_2 },
+      position,
+      spaceList
+    );
+
+    next_d_1++;
+  }
+
+  return { d_1: next_d_1 - 2, d_2 };
+};
+
+/**
  * 키보드의 각 key별, 다음 시점의 블럭을 그리는 기준이 될 location을 반환
  * @param key
  * @param location
+ * @param position
+ * @param spaceList
  * @returns
  */
-export const getNextLocation = (key: string, location: Location): Location =>
+export const getNextLocation = (
+  key: string,
+  { d_1, d_2 }: Location,
+  position: Space[][],
+  spaceList: Space[][]
+): Location =>
   ({
-    ArrowUp: { ...location },
+    ArrowUp: { d_1, d_2 },
     ArrowDown: {
-      ...location,
-      d_1: location.d_1 + 1,
+      d_2,
+      d_1: d_1 + 1,
     },
     ArrowLeft: {
-      ...location,
-      d_2: location.d_2 - 1,
+      d_1,
+      d_2: d_2 - 1,
     },
     ArrowRight: {
-      ...location,
-      d_2: location.d_2 + 1,
+      d_1,
+      d_2: d_2 + 1,
     },
+    " ": getEnableBottomLocation({ d_1, d_2 }, position, spaceList),
   }[key]);
 
 /**

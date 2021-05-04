@@ -31,7 +31,7 @@ const App: React.FC = () => {
     if (
       progress === Progress.proceeding &&
       _.find(
-        ["ArrowUp", "ArrowDown", "ArrowLeft", "ArrowRight"],
+        ["ArrowUp", "ArrowDown", "ArrowLeft", "ArrowRight", " "],
         fp.isEqual(key)
       )
     ) {
@@ -49,7 +49,9 @@ const App: React.FC = () => {
       setState((prev) => {
         const nextLocation: Location = getNextLocation(
           key,
-          prev.currentLocation
+          prev.currentLocation,
+          prev.currentBlock._position,
+          prev.spaceList
         );
 
         // // TODO: 회전시 주변 어느 블록과도 겹치지 않아야 함
@@ -64,6 +66,8 @@ const App: React.FC = () => {
             currentLocation: nextLocation,
             spaceList: getSpaceList(nextLocation, currentBlock, prev.spaceList),
           };
+        } else if (key === " ") {
+          return getGameStateByLocation(prev, nextLocation);
         } else {
           const touchingBoundary = isTouchingBoundary(
             key,
