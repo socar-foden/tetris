@@ -352,7 +352,7 @@ const getEnableBottomLocation = (
     next_d_1++;
   }
 
-  return { d_1: next_d_1 - 2, d_2 };
+  return { d_1: Math.max(next_d_1 - 2, d_1), d_2 };
 };
 
 /**
