@@ -5,7 +5,7 @@ import GameContext, { Progress } from "../../GameContext";
 import S from "./Info.style";
 import Game_S from "../Game/Game.style";
 import When from "../When/When";
-import { Block } from "../../models/blocks";
+import { Block, Block_Empty } from "../../models/blocks";
 import { Space, SpaceState } from "../../models/spaces";
 import {
   Direction,
@@ -14,6 +14,8 @@ import {
   getRandomBlock,
   getSpaceList,
   isTouchingBlock,
+  getNextLocation,
+  isTouchingBoundary,
 } from "../../utils";
 import { Location } from "../../utils/index";
 
@@ -44,13 +46,28 @@ const Info: React.FC = () => {
 
     timeout = setInterval(() => {
       setGameState((prev) => {
-        const nextLocation: Location = {
-          ...prev.currentLocation,
-          d_1: prev.currentLocation.d_1 + 1,
+        return {
+          ...prev,
+          spaceList: getSpaceList(
+            prev.currentLocation,
+            new Block_Empty(prev.currentBlock._position),
+            prev.spaceList
+          ),
         };
+      });
 
-        const touchingFloor =
-          nextLocation.d_1 + prev.currentBlock._position.length > 25;
+      setGameState((prev) => {
+        const nextLocation: Location = getNextLocation(
+          "ArrowDown",
+          prev.currentLocation,
+          prev.currentBlock._position,
+          prev.spaceList
+        );
+        const touchingFloor = isTouchingBoundary(
+          "ArrowDown",
+          nextLocation,
+          prev.currentBlock._position
+        );
         const touchingBlockBelow = isTouchingBlock(
           Direction.Bottom,
           nextLocation,
@@ -62,10 +79,10 @@ const Info: React.FC = () => {
           return getGameStateByLocation(prev, nextLocation);
         } else {
           return {
-            ...prev,
+            ...getGameStateByLocation(prev, prev.currentLocation),
             currentBlock: prev.nextList[0],
-            currentLocation: startLocation,
             nextList: [prev.nextList[1], getRandomBlock()],
+            currentLocation: startLocation,
           };
         }
       });

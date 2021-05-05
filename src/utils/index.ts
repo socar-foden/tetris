@@ -60,6 +60,52 @@ export const getRandomBlock = (): Block => {
 const isBlockSpace = (space: Space): boolean =>
   _.isEqual(_.get(space, "_state"), SpaceState.block);
 
+/**
+ * 각 블럭의 가장 끝부분 조각인지 여부를 반환
+ * @param direction
+ * @param location
+ * @param position
+ * @returns
+ */
+const isRightPositionBlock = (
+  direction: string,
+  { d_1, d_2 }: Location,
+  position: Space[][]
+): boolean => {
+  const isBlock = isBlockSpace(position[d_1][d_2]);
+  let isRightPosition = true;
+  let cnt = 1;
+
+  const conditionMap = {
+    Top: {
+      condition: d_1 - cnt >= 0,
+      // target: position[d_1 - cnt][d_2]._state,
+    },
+    // Bottom: {
+    //   condition: d_1 + cnt < position.length,
+    //   target: position[d_1 + cnt][d_2]._state,
+    // },
+    // Left: {
+    //   condition: d_2 - cnt >= 0,
+    //   target: position[d_1][d_2 - cnt]._state,
+    // },
+    // Right: {
+    //   condition: d_2 + cnt < position[0].length,
+    //   target: position[d_1][d_2 + cnt]._state,
+    // },
+  };
+
+  while (d_1 - cnt >= 0) {
+    if (position[d_1 - cnt][d_2]._state === SpaceState.block) {
+      isRightPosition = false;
+      break;
+    }
+    cnt++;
+  }
+
+  return isBlock && isRightPosition;
+};
+
 // TODO: is(Top, Bottom....)OfPosition 4가지 함수 추상화
 /**
  * 각 블럭의 최상단에 위치한 조각인지 파악
@@ -226,13 +272,6 @@ export const getSpaceList = (
           cloned[d1][d2] = new Space_Empty();
         } else {
           cloned[d1][d2] = new Space_Block(color);
-        }
-
-        if (
-          isTopOfPosition({ d_1: i, d_2: j }, block._position) &&
-          !!cloned[d1 - 1]
-        ) {
-          cloned[d1 - 1][d2] = new Space_Empty();
         }
       }
     })
