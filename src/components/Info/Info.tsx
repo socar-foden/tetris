@@ -10,6 +10,7 @@ import { Space, SpaceState } from "../../models/spaces";
 import {
   Direction,
   getEmptySpaceListAll,
+  getGameStateByLocation,
   getRandomBlock,
   getSpaceList,
   isTouchingBlock,
@@ -58,15 +59,7 @@ const Info: React.FC = () => {
         );
 
         if (!touchingFloor && !touchingBlockBelow) {
-          return {
-            ...prev,
-            currentLocation: nextLocation,
-            spaceList: getSpaceList(
-              nextLocation,
-              prev.currentBlock,
-              prev.spaceList
-            ),
-          };
+          return getGameStateByLocation(prev, nextLocation);
         } else {
           return {
             ...prev,
