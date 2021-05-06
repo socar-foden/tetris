@@ -81,7 +81,7 @@ export class Block_Z extends Block {
 
     this._direction = 0;
     this._type = BlockType.Z;
-    this._color = "#0061a8";
+    this._color = "#8bf7ba";
     this._position = [
       [
         new Space_Block(this._color),
