@@ -1,7 +1,7 @@
 import React, { useContext } from "react";
 import _ from "lodash";
 import fp from "lodash/fp";
-import GameContext, { gameState, Progress } from "../../GameContext";
+import GameContext, { Progress } from "../../GameContext";
 import S from "./Info.style";
 import Game_S from "../Game/Game.style";
 import When from "../When/When";
