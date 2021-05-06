@@ -12,6 +12,7 @@ import {
   isTouchingBlock,
   isTouchingBoundary,
   keyDirectionMap,
+  overlapSomePosition,
 } from "../../utils";
 import Game from "../Game/Game";
 import GlobalStyle from "../GlobalStyle";
@@ -54,18 +55,33 @@ const App: React.FC = () => {
           prev.spaceList
         );
 
-        // // TODO: 회전시 주변 어느 블록과도 겹치지 않아야 함
-        // // TODO: 회전시 주변 어느 블록과도 겹치지 않아야 함
-        // // TODO: 회전시 주변 어느 블록과도 겹치지 않아야 함
         if (key === "ArrowUp") {
           const currentBlock = getRotatedBlock(prev.currentBlock);
+          const isOverlap = overlapSomePosition(
+            nextLocation,
+            currentBlock._position,
+            prev.spaceList
+          );
+          const touchingBoundary = isTouchingBoundary(
+            key,
+            nextLocation,
+            currentBlock._position,
+          );
 
-          return {
-            ...prev,
-            currentBlock,
-            currentLocation: nextLocation,
-            spaceList: getSpaceList(nextLocation, currentBlock, prev.spaceList),
-          };
+          if (!isOverlap && !touchingBoundary) {
+            return {
+              ...prev,
+              currentBlock,
+              currentLocation: nextLocation,
+              spaceList: getSpaceList(
+                nextLocation,
+                currentBlock,
+                prev.spaceList
+              ),
+            };
+          } else {
+            return getGameStateByLocation(prev, prev.currentLocation);
+          }
         } else if (key === " ") {
           return getGameStateByLocation(prev, nextLocation);
         } else {

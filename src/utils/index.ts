@@ -327,8 +327,29 @@ export const isTouchingBoundary = (
   position: Space[][]
 ): boolean =>
   ({
-    ArrowUp: true,
+    ArrowUp:
+      d_1 + position.length > 25 || d_2 < 0 || d_2 + position[0].length > 15,
     ArrowDown: d_1 + position.length > 25,
     ArrowLeft: d_2 < 0,
     ArrowRight: d_2 + position[0].length > 15,
+    " ": true,
   }[key]);
+
+/**
+ * 특정 블럭이 기존 영역의 블럭과 겹치는지 확인
+ * @param location
+ * @param position
+ * @param spaceList
+ * @returns
+ */
+export const overlapSomePosition = (
+  { d_1, d_2 }: Location,
+  position: Space[][],
+  spaceList: Space[][]
+): boolean => {
+  const [range_d_2, range_d_1] = getRangeInfo({ d_1, d_2 }, position);
+
+  return _.some(range_d_1, (d1, i) =>
+    _.some(range_d_2, (d2, j) => isBlockSpace(spaceList[d1][d2]))
+  );
+};
