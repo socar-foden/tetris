@@ -349,7 +349,7 @@ export const overlapSomePosition = (
 ): boolean => {
   const [range_d_2, range_d_1] = getRangeInfo({ d_1, d_2 }, position);
 
-  return _.some(range_d_1, (d1, i) =>
-    _.some(range_d_2, (d2, j) => isBlockSpace(spaceList[d1][d2]))
+  return _.some(range_d_1, (d1) =>
+    _.some(range_d_2, (d2) => spaceList[d1] && isBlockSpace(spaceList[d1][d2]))
   );
 };
