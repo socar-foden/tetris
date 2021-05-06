@@ -331,7 +331,7 @@ const getEnableBottomLocation = (
   position: Space[][],
   spaceList: Space[][]
 ): Location => {
-  let next_d_1 = 0;
+  let next_d_1 = d_1;
 
   let touchingBoundary = false;
   let touchingBlock = false;
