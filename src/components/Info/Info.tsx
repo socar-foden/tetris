@@ -1,7 +1,7 @@
 import React, { useContext } from "react";
 import _ from "lodash";
 import fp from "lodash/fp";
-import GameContext, { Progress } from "../../GameContext";
+import GameContext, { gameState, Progress } from "../../GameContext";
 import S from "./Info.style";
 import Game_S from "../Game/Game.style";
 import When from "../When/When";
@@ -23,7 +23,15 @@ let timeout;
 
 const Info: React.FC = () => {
   const gameContext = useContext(GameContext);
-  const { score, rows, level, progress, nextList, setGameState } = gameContext;
+  const {
+    score,
+    rows,
+    level,
+    progress,
+    nextList,
+    setGameState,
+    fallingTime,
+  } = gameContext;
   const isReady = fp.isEqual(progress, Progress.ready);
 
   const handleClickStart = () => {
@@ -86,7 +94,7 @@ const Info: React.FC = () => {
           };
         }
       });
-    }, 1000);
+    }, fallingTime);
   };
 
   const handleClickEnd = () => {
