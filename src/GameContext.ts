@@ -20,7 +20,6 @@ export interface GameState {
   currentBlock: Block;
   currentLocation: Location;
   setGameState: (callback: (gameState: GameState) => GameState) => void;
-  fallingTime: number;
 }
 
 export const gameState: GameState = {
@@ -33,7 +32,6 @@ export const gameState: GameState = {
   currentBlock: null,
   currentLocation: null,
   setGameState: _.noop,
-  fallingTime: 2000,
 };
 
 const GameContext = React.createContext<GameState | null>(null);

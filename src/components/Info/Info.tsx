@@ -19,40 +19,19 @@ import {
 } from "../../utils";
 import { Location } from "../../utils/index";
 
-let timeout;
+let reqId;
+let frame = 0;
+const startLocation: Location = { d_1: 0, d_2: 7 };
 
 const Info: React.FC = () => {
   const gameContext = useContext(GameContext);
-  const {
-    score,
-    rows,
-    level,
-    progress,
-    nextList,
-    setGameState,
-    fallingTime,
-  } = gameContext;
+  const { score, rows, level, progress, nextList, setGameState } = gameContext;
   const isReady = fp.isEqual(progress, Progress.ready);
 
-  const handleClickStart = () => {
-    let currentBlock = getRandomBlock();
-    const startLocation: Location = { d_1: 0, d_2: 7 };
+  const step = (timestamp) => {
+    frame++;
 
-    setGameState((prev) => ({
-      ...prev,
-      spaceList: getEmptySpaceListAll(),
-    }));
-
-    setGameState((prev) => ({
-      ...prev,
-      progress: Progress.proceeding,
-      currentBlock,
-      currentLocation: startLocation,
-      nextList: [getRandomBlock(), getRandomBlock()],
-      spaceList: getSpaceList(startLocation, currentBlock, prev.spaceList),
-    }));
-
-    timeout = setInterval(() => {
+    if (frame % 60 === 0) {
       setGameState((prev) => {
         return {
           ...prev,
@@ -94,11 +73,33 @@ const Info: React.FC = () => {
           };
         }
       });
-    }, fallingTime);
+    }
+
+    reqId = requestAnimationFrame(step);
+  };
+
+  const handleClickStart = () => {
+    let currentBlock = getRandomBlock();
+
+    setGameState((prev) => ({
+      ...prev,
+      spaceList: getEmptySpaceListAll(),
+    }));
+
+    setGameState((prev) => ({
+      ...prev,
+      progress: Progress.proceeding,
+      currentBlock,
+      currentLocation: startLocation,
+      nextList: [getRandomBlock(), getRandomBlock()],
+      spaceList: getSpaceList(startLocation, currentBlock, prev.spaceList),
+    }));
+
+    reqId = requestAnimationFrame(step);
   };
 
   const handleClickEnd = () => {
-    clearInterval(timeout);
+    cancelAnimationFrame(reqId);
     setGameState((prev) => ({ ...prev, progress: Progress.ready }));
   };
 
