@@ -140,7 +140,7 @@ export class Block_L extends Block {
 
     this._direction = 0;
     this._type = BlockType.L;
-    this._color = "#96bb7c";
+    this._color = "#04009a";
     this._position = [
       [new Space_Block(this._color), new Space_Empty()],
       [new Space_Block(this._color), new Space_Empty()],
