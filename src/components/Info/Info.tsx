@@ -69,7 +69,7 @@ const Info: React.FC = () => {
             ...getGameStateByLocation(prev, prev.currentLocation),
             currentBlock: prev.nextList[0],
             nextList: [prev.nextList[1], getRandomBlock()],
-            currentLocation: startLocation,
+            currentLocation: { d_1: -1, d_2: 7 },
           };
         }
       });

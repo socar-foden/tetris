@@ -195,7 +195,7 @@ export const getSpaceList = (
 
   _.forEach(range_d_1, (d1, i) =>
     _.forEach(range_d_2, (d2, j) => {
-      if (isBlockSpace(_position[i][j])) {
+      if (d_1 > -1 && isBlockSpace(_position[i][j])) {
         if (block.type === BlockType.Empty) {
           cloned[d1][d2] = new Space_Empty();
         } else {
