@@ -29,9 +29,7 @@ const Info: React.FC = () => {
   const isReady = fp.isEqual(progress, Progress.ready);
 
   const step = (timestamp) => {
-    frame++;
-
-    if (frame % 60 === 0) {
+    if (++frame % 60 === 0) {
       setGameState((prev) => {
         return {
           ...prev,
