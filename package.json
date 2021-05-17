@@ -21,7 +21,6 @@
   "bugs": {
     "url": "https://github.com/zxczoxc125/tetris/issues"
   },
-  "homepage": "https://github.com/zxczoxc125/tetris#readme",
   "devDependencies": {
     "@babel/core": "^7.13.15",
     "@babel/preset-env": "^7.13.15",
